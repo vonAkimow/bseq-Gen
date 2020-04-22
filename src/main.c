@@ -21,6 +21,7 @@ typedef struct {
     /* Кнопки */
     GtkWidget*  w_generate_button;
 
+
     /* Текстовый буфер*/
     GtkTextBuffer* w_output_buffer;
 
@@ -80,7 +81,7 @@ int main(int argc, char *argv[])
 
     volatile uint8_t flag = 0;
     volatile uint32_t number = 0, shift1 = 0, shift2 = 0, shift3 = 0, shift4 = 0;
-
+    GtkTextIter* start,end;
  /*##############################################*/
 
 
@@ -237,7 +238,7 @@ void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         Колбэк по нажатию кнопки "Сгенерировать" */
 void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
-
+    uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
     g_print("GEEENERATE!!!\n");
     gtk_widget_set_sensitive(app_wgts->w_generate_button, FALSE);
 
@@ -245,19 +246,20 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if (flag == 1)
     {
 
-        uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
+        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char one[13];
-        char zero[13];
+        char ones[13] = {0};
+        char zeros[13] = {0};
 
+        gtk_text_buffer_get_start_iter(app_wgts->w_output_buffer,&start);
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
         DisplaySequence(BaseSequence,number,"Prime sequence b1(k): ");
 
-        RightShifts(Sequence1, number, shift1);
+        RightShifts(Sequence1, number, shift1);//S1>>shift1
 
-        SeqPSeq(BaseSequence, Sequence1, number);
+        SeqPSeq(BaseSequence, Sequence1, number);//S1+S2
         printf("\n");
         printf("Length: %i \n", number);
         printf("Shifters: %d\n",flag);
@@ -265,17 +267,24 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
-        IntToString(BS,BaseSequence,number);
+        IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность: \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(1): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
 
-        sprintf(&one, "1 - %d раз",CountI(BaseSequence, number, 1));
-        sprintf(&zero, "0 - %d раз",CountI(BaseSequence, number, 0));
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zero,-1);
+        uint32_t count1 = CountI(BaseSequence, number, 1);
+
+        sprintf(&ones, "<1> - %d, ",count1);
+        sprintf(&zeros, "<0> - %d.",number - count1);
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+        gtk_text_buffer_get_end_iter(app_wgts->w_output_buffer,&end);
 
         free(Sequence1); /*освобождаем выделенную память*/
+        free(BS);
 
         g_print("\nflag1!\n");
         flag = 0;
@@ -284,9 +293,12 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     else if (flag == 2)
     {
 
-        uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
+        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
+        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
+        char ones[13] = {0};
+        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
@@ -306,8 +318,23 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
+        IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(2): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
+
+        uint32_t count1 = CountI(BaseSequence, number, 1);
+
+        sprintf(&ones, "<1> - %u, ",count1);
+        sprintf(&zeros, "<0> - %u.",number - count1);
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
         free(Sequence1);
         free(Sequence2);
+        free(BS);
 
         g_print("\nflag2!\n");
         flag = 0;
@@ -317,10 +344,13 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     else if (flag == 3)
     {
 
-        uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
+        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
+        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
+        char ones[13] = {0};
+        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
@@ -345,9 +375,24 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
+        IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(3): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
+
+        uint32_t count1 = CountI(BaseSequence, number, 1);
+
+        sprintf(&ones, "<1> - %u, ",count1);
+        sprintf(&zeros, "<0> - %u.",number - count1);
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
         free(Sequence1);
         free(Sequence2);
         free(Sequence3);
+        free(BS);
 
         g_print("\nflag3!\n");
         flag = 0;
@@ -357,11 +402,14 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     else if (flag == 4)
     {
 
-        uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
+        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence4 = (uint8_t*)calloc(number, sizeof(uint8_t));
+        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
+        char ones[13] = {0};
+        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);//b(k)
         MakePrimeSequence(Sequence1, number);//S1
@@ -387,10 +435,26 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
+        IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(4): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
+
+        uint32_t count1 = CountI(BaseSequence, number, 1);
+
+        sprintf(&ones, "<1> - %u, ",count1);
+        sprintf(&zeros, "<0> - %u.",number - count1);
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+
         free(Sequence1);
         free(Sequence2);
         free(Sequence3);
         free(Sequence4);
+        free(BS);
 
         g_print("\nflag4!\n");
         flag = 0;
@@ -404,10 +468,23 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 }
 
+
+/*#################################################
+                Колбэк по нажатию кнопки очистки*/
+void clear_textbuffer_clicked(GtkWidget *widget, main_widgets* app_wgts)
+{
+
+
+    g_print("CLEARED!\n");
+
+
+}
+
+
 /*#################################################
             Преобразование массива чисел в строку*/
 
-void IntToString(char* str,uint8_t* sequence,uint32_t length)
+static void IntToString(char* str,uint8_t* sequence,uint32_t length)
 {
     for (uint32_t i = 0; i < length; i++)
     {

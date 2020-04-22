@@ -36,6 +36,11 @@
 			<Add option="`pkg-config gtk+-2.0 --libs`" />
 		</Linker>
 		<Unit filename="glade/Hello.glade" />
+		<Unit filename="glade/Help.glade" />
+		<Unit filename="src/BSEQ.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/BSEQ.h" />
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
