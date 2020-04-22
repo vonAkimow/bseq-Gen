@@ -1,166 +1,13 @@
 #include "BSEQ.h"
 
-/*#########################ПЕРВЫЕ 500 ПРОСТЫХ ЧИСЕЛ (20x25)#########################*/
-const uint16_t PrimeTable[] =
-{
-	2, 3, 5, 7, 11,
-	13, 17, 19, 23,
-	29,
-	31, 37, 41, 43, 47,
-	53, 59, 61, 67, 71,
-	73,
-	79, 83, 89, 97, 101,
-	103, 107, 109, 113, 127,
-	131, 137, 139, 149, 151, 157, 163, 167, 173,
-	179,
-	181,
-	191, 193, 197, 199, 211,
-	223, 227, 229, 233, 239,
-	241, 251, 257, 263,
-	269,
-	271, 277, 281,
-	283, 293,
-	307,
-	311, 313, 317, 331, 337,
-	347, 349, 353, 359,
-	367,
-	373, 379, 383, 389, 397,
-	401, 409,
-	419, 421, 431, 433,
-	439, 443, 449, 457, 461,
-	463, 467, 479, 487, 491,
-	499, 503, 509, 521, 523,
-	541,
-	547, 557, 563, 569,
-	571,
-	577, 587, 593, 599, 601,
-	607, 613, 617, 619, 631,
-	641, 643, 647, 653,
-	659,
-	661,
-	673, 677, 683, 691,
-	701,
-	709, 719, 727, 733, 739,
-	743, 751, 757, 761, 769,
-	773, 787, 797, 809,
-	811,
-	821,
-	823, 827, 829, 839,
-	853,
-	857, 859, 863, 877, 881,
-	883, 887, 907, 911,
-	919,
-	929, 937, 941,
-	947, 953, 967,
-	971, 977, 983, 991, 997, 1009,
-	1013, 1019, 1021, 1031, 1033,
-	1039, 1049, 1051, 1061, 1063,
-	1069,
-	1087, 1091, 1093, 1097, 1103,
-	1109, 1117, 1123, 1129,
-	1151,
-	1153, 1163, 1171, 1181, 1187,
-	1193, 1201, 1213, 1217,
-	1223,
-	1229,
-	1231, 1237, 1249, 1259, 1277,
-	1279, 1283, 1289, 1291, 1297,
-	1301, 1303, 1307, 1319, 1321,
-	1327, 1361, 1367, 1373,
-	1381, 1399,
-	1409, 1423, 1427, 1429, 1433,
-	1439, 1447, 1451, 1453,
-	1459,
-	1471, 1481, 1483, 1487, 1489,
-	1493, 1499, 1511,
-	1523, 1531,
-	1543,
-	1549, 1553, 1559, 1567, 1571,
-	1579, 1583, 1597, 1601, 1607,
-	1609,
-	1613, 1619, 1621, 1627, 1637,
-	1657,
-	1663, 1667, 1669, 1693,
-	1697,
-	1699, 1709, 1721, 1723, 1733,
-	1741, 1747, 1753, 1759, 1777,
-	1783, 1787, 1789, 1801, 1811,
-	1823,
-	1831, 1847, 1861, 1867, 1871,
-	1873, 1877, 1879, 1889, 1901, 1907, 1913, 1931, 1933,
-	1949,
-	1951, 1973, 1979, 1987,
-	1993, 1997,
-	1999, 2003, 2011, 2017, 2027,
-	2029, 2039, 2053, 2063,
-	2069,
-	2081, 2083, 2087, 2089,
-	2099,
-	2111, 2113, 2129,
-	2131, 2137, 2141,
-	2143, 2153, 2161, 2179,
-	2203,
-	2207, 2213, 2221, 2237, 2239,
-	2243, 2251, 2267, 2269, 2273, 2281,
-	2287,
-	2293, 2297, 2309, 2311, 2333,
-	2339, 2341, 2347, 2351, 2357,
-	2371, 2377, 2381, 2383, 2389,
-	2393, 2399, 2411, 2417,
-	2423,
-	2437,
-	2441, 2447, 2459, 2467, 2473,
-	2477, 2503, 2521, 2531, 2539,
-	2543, 2549, 2551, 2557,
-	2579,
-	2591, 2593, 2609, 2617,
-	2621,
-	2633,
-	2647, 2657, 2659, 2663, 2671,
-	2677, 2683, 2687, 2689, 2693,
-	2699, 2707, 2711, 2713,
-	2719,
-	2729, 2731, 2741,
-	2749, 2753,
-	2767,
-	2777, 2789, 2791, 2797, 2801,
-	2803, 2819, 2833, 2837,
-	2843,
-	2851, 2857, 2861, 2879, 2887,
-	2897, 2903,
-	2909, 2917, 2927, 2939,
-	2953, 2957, 2963, 2969, 2971,
-	2999, 3001, 3011, 3019, 3023,
-	3037, 3041, 3049, 3061, 3067,
-	3079,
-	3083, 3089, 3109, 3119,
-	3121,
-	3137, 3163, 3167, 3169, 3181,
-	3187, 3191, 3203, 3209, 3217,
-	3221, 3229, 3251, 3253,
-	3257,
-	3259,
-	3271, 3299, 3301, 3307,
-	3313,
-	3319, 3323, 3329, 3331, 3343,
-	3347, 3359, 3361, 3371,
-	3373,
-	3389, 3391, 3407, 3413,
-	3433, 3449,
-	3457, 3461, 3463, 3467, 3469,
-	3491, 3499, 3511, 3517, 3527,
-	3529, 3533, 3539, 3541, 3547,
-	3557, 3559, 3571
-};
-
 
 /*#########################ТЕЛО ГЛАВНОЙ ПРОГРАММЫ#########################*/
-int main(void)
+int BGEN(void)
 {
 	const uint16_t number = 991;  /*простое число = длина последовательности*/
 	double* acf = (double*)calloc(number, sizeof(double));/*массив значений АКФ*/
 	atexit(ExitMessage);/*вывод сообщения по завершении программы*/
-	FILE* fp;
+
 #ifdef SHIFTNUMBER1
 	uint8_t* BaseSequence;
 	uint8_t* sequence1;
@@ -215,8 +62,8 @@ int main(void)
 	Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
 	Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
 	Sequence4 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	
-	MakePrimeSequence(BaseSequence, number);	
+
+	MakePrimeSequence(BaseSequence, number);
 	MakePrimeSequence(Sequence1, number);
 	MakePrimeSequence(Sequence2, number);
 	MakePrimeSequence(Sequence3, number);
@@ -248,19 +95,15 @@ int main(void)
 	MakeBSequence(number, BaseSequence, sequence1, sequence2, sequence3, sequence4, sequence5);
 #endif /*SHIFTNUMBER5*/
 
-	
 
+#if 0
 	ACF((int8_t*)BaseSequence, number, acf);
 	qsort((void*)acf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
 	/*DisplayCorrelation(acf, number, "ACF : ");*/
 	CalcProperties(acf, number);
-	if ((fp = fopen_s("acf.txt", "w")) == NULL)
-	{
-		printf("ERROR!\n");
-	}
-	else printf("SUCCESS\n");
-	
-	return NULL;
+#endif
+
+	return 0;
 }
 /*#################################################################################*/
 
@@ -295,7 +138,7 @@ static void CalcProperties(double* ACF, uint32_t length)
 }
 
 /*число вхождений элемента value в массив sequence*/
-static uint32_t CountD(double* sequence, uint32_t length, double value)
+uint32_t CountD(double* sequence, uint32_t length, double value)
 {
 	uint32_t result = 0;
 	for (uint32_t i = 0; i < length; ++i)
@@ -309,7 +152,7 @@ static uint32_t CountD(double* sequence, uint32_t length, double value)
 }
 
 /*число вхождений целочисленного элемента в массив*/
-static void CountI(uint8_t* sequence, uint32_t length, int8_t value)
+void CountI(uint8_t* sequence, uint32_t length, int8_t value)
 {
 	uint32_t result = 0;
 	for (uint32_t i = 0; i < length; ++i)
@@ -355,7 +198,7 @@ static void OneRightShift(uint8_t* sequence, uint32_t length)
 }
 
 /*сдвиг вправо на nshifts элементов*/
-static void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
+void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
 {
 	if (nshifts > 0)
 	{
@@ -370,7 +213,7 @@ static void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
 	}
 }
 
-static void DisplaySequence(uint8_t* sequence, uint32_t length, char* name)
+void DisplaySequence(uint8_t* sequence, uint32_t length, char* name)
 {
 	printf("\n%s", name);
 	for (uint32_t i = 0; i < length; i++)
@@ -379,7 +222,7 @@ static void DisplaySequence(uint8_t* sequence, uint32_t length, char* name)
 	}
 }
 
-static void DisplayCorrelation(double* CF, uint32_t length, char* name)
+void DisplayCorrelation(double* CF, uint32_t length, char* name)
 {
 	printf("\n");
 	printf("\n%s", name);
@@ -405,7 +248,7 @@ static bool NumberIsPrime(uint32_t p)
 }
 
 /*Строим двоичную последовательность простых чисел*/
-static void MakePrimeSequence(uint8_t* sequence, uint32_t number)
+void MakePrimeSequence(uint8_t* sequence, uint32_t number)
 {
 	uint8_t j = 1;
 	for (uint32_t i = 0; i < number; i++)
@@ -416,7 +259,7 @@ static void MakePrimeSequence(uint8_t* sequence, uint32_t number)
 }
 
 /*построение В-последовательности*/
-static void MakeBSequence(uint32_t length, uint8_t* basesequence, uint8_t* sequence1, ...)
+void MakeBSequence(uint32_t length, uint8_t* basesequence, uint8_t* sequence1, ...)
 {
 	va_list argptr;
 	va_start(argptr, sequence1); //argptr - ссылка на значение первого необязательного параметра (после sequence1)
@@ -500,7 +343,7 @@ static void MakeBSequence(uint32_t length, uint8_t* basesequence, uint8_t* seque
 	uint8_t* sequence3 = va_arg(argptr, uint8_t*);
 	uint8_t* sequence4 = va_arg(argptr, uint8_t*);
 	va_end(argptr);
-	
+
 	RightShifts(sequence1, length, 15); //S1->15
 	RightShifts(sequence2, length, 266); //S2->266
 	RightShifts(sequence3, length, 299); //S3->299
@@ -517,7 +360,7 @@ static void MakeBSequence(uint32_t length, uint8_t* basesequence, uint8_t* seque
 	printf("\n");
 	CountI(basesequence, length, 1);
 	CountI(basesequence, length, 0);
-	
+
 	free(sequence1);
 	free(sequence2);
 	free(sequence3);
@@ -572,11 +415,11 @@ static void MakeBSequence(uint32_t length, uint8_t* basesequence, uint8_t* seque
 	free(sequence4);
 	free(sequence5);
 #endif // SHIFTNUMBER5
-	
+
 }
 
 /*сумма по модулю 2, результат в basesequence*/
-static void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
+void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 {
 	for (uint32_t i = 0; i < length; i++)
 	{
@@ -585,7 +428,7 @@ static void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 }
 
 /*Расчёт автокорреляционной функции последовательности sequence длины length*/
-static void ACF(int8_t* sequence, uint32_t length, double* CF)
+void ACF(int8_t* sequence, uint32_t length, double* CF)
 {
 
 	int32_t* r = (int32_t*)calloc(length+1, sizeof(int32_t));
@@ -612,7 +455,7 @@ static void ACF(int8_t* sequence, uint32_t length, double* CF)
 		for(f = 0 ; f < length ; f++)
 		{
 			r[f] = sequence1[f]*sequence[f];
-			sum = sum + r[f];			
+			sum = sum + r[f];
 		}
 		CF[tau] = sum / (float)length;
 		sum = 0;
