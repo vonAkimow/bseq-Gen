@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-/*Колбэк по нажатии кнопки "Таблица простых чисел"*/
+/*Колбэк по нажатию кнопки "Таблица простых чисел"*/
 void help_button_clicked(GtkWidget *widget, help_widgets* app_wgts)
 {
     GtkBuilder      *builder1;
@@ -78,37 +78,121 @@ void help_button_clicked(GtkWidget *widget, help_widgets* app_wgts)
     gtk_widget_show(app_wgts->w_help_window);
 }
 
-/*Колбэк по нажатии кнопки "Применить настройки" */
+/*Колбэк по нажатию кнопки "Применить настройки" */
 void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
+
     /* Сначала определяем выбранную радиокнопку */
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s1_button)))  /* 1 СДВИГ */
     {
+        g_print("Catched1!\n");
 
-        g_print("Catched1!");
+        /* Считываем значения соответствующих спин кнопок */
+        uint16_t length = 0, shift1 = 0;
+        char len[5] = {0};
+        char sht1[5] = {0};
+
+        /* Прочитали значения кнопок  w_prime_sbtn и w_s1_sbtn1*/
+        length = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
+        shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
+
+        g_snprintf(len,sizeof(len),"%d\n",length);
+        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
+
+        g_print(len);
+        g_print(sht1);
     }
 
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s2_button)))  /* 2 СДВИГА */
     {
 
-        g_print("Catched2!");
+        g_print("Catched2!\n");
+
+
+        uint16_t length = 0, shift1 = 0, shift2 = 0;
+        char len[5] = {0};
+        char sht1[5] = {0};
+        char sht2[5] = {0};
+
+
+        length = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
+        shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
+        shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn1));
+
+        g_snprintf(len,sizeof(len),"%d\n",length);
+        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
+        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
+
+        g_print(len);
+        g_print(sht1);
+        g_print(sht2);
     }
 
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s3_button)))  /* 3 СДВИГА */
     {
 
-        g_print("Catched3!");
+        g_print("Catched3!\n");
+
+
+        uint16_t length = 0, shift1 = 0, shift2 = 0, shift3 = 0;
+        char len[5] = {0};
+        char sht1[5] = {0};
+        char sht2[5] = {0};
+        char sht3[5] = {0};
+
+
+        length = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
+        shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
+        shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn1));
+        shift3 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s3_sbtn1));
+
+        g_snprintf(len,sizeof(len),"%d\n",length);
+        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
+        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
+        g_snprintf(sht3,sizeof(sht3),"%d\n",shift3);
+
+        g_print(len);
+        g_print(sht1);
+        g_print(sht2);
+        g_print(sht3);
     }
 
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s4_button)))  /* 4 СДВИГА */
     {
 
-        g_print("Catched4!");
+        g_print("Catched4!\n");
+
+
+        uint16_t length = 0, shift1 = 0, shift2 = 0, shift3 = 0, shift4 = 0;
+        char len[5] = {0};
+        char sht1[5] = {0};
+        char sht2[5] = {0};
+        char sht3[5] = {0};
+        char sht4[5] = {0};
+
+
+        length = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
+        shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
+        shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn1));
+        shift3 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s3_sbtn1));
+        shift4 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s4_sbtn1));
+
+        g_snprintf(len,sizeof(len),"%d\n",length);
+        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
+        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
+        g_snprintf(sht3,sizeof(sht3),"%d\n",shift3);
+        g_snprintf(sht4,sizeof(sht4),"%d\n",shift4);
+
+        g_print(len);
+        g_print(sht1);
+        g_print(sht2);
+        g_print(sht3);
+        g_print(sht4);
     }
 
 }
 
-/*Колбэк по закрытии главного окна*/
+/*Колбэк по закрытию главного окна*/
 void main_destroy()
 {
     gtk_main_quit();
