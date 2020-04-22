@@ -7,5 +7,5 @@
 #include <math.h>
 #include "BSEQ.h"
 
-
+void IntToString(char* str,uint8_t* sequence,uint32_t length);
 #endif

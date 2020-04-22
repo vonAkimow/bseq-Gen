@@ -152,7 +152,7 @@ uint32_t CountD(double* sequence, uint32_t length, double value)
 }
 
 /*число вхождений целочисленного элемента в массив*/
-void CountI(uint8_t* sequence, uint32_t length, int8_t value)
+uint32_t CountI(uint8_t* sequence, uint32_t length, int8_t value)
 {
 	uint32_t result = 0;
 	for (uint32_t i = 0; i < length; ++i)
@@ -163,6 +163,7 @@ void CountI(uint8_t* sequence, uint32_t length, int8_t value)
 		}
 	}
 	printf("\n%i - %i times", value, result);
+	return result;
 }
 
 /*сортировка элементов по возрастанию*/

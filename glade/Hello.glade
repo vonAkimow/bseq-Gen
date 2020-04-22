@@ -32,12 +32,7 @@
     <property name="stock">gtk-dialog-question</property>
     <property name="icon_size">3</property>
   </object>
-  <object class="GtkTextBuffer" id="output_buffer">
-    <property name="text" translatable="yes">  								
-
-
-										&lt;Здесь будут выведены последовательности и результаты статистической обработки&gt;</property>
-  </object>
+  <object class="GtkTextBuffer" id="output_buffer"/>
   <object class="GtkAdjustment" id="prime_adj">
     <property name="upper">3000</property>
     <property name="value">3</property>

@@ -21,6 +21,10 @@ typedef struct {
     /* Кнопки */
     GtkWidget*  w_generate_button;
 
+    /* Текстовый буфер*/
+    GtkTextBuffer* w_output_buffer;
+
+
 } main_widgets;
 
 
@@ -52,6 +56,8 @@ int main(int argc, char *argv[])
     widgets0->w_s4_button = GTK_WIDGET(gtk_builder_get_object(builder,"s4_button"));
 
     widgets0->w_generate_button = GTK_WIDGET(gtk_builder_get_object(builder,"generate_button"));
+
+    widgets0->w_output_buffer = GTK_TEXT_BUFFER(gtk_builder_get_object(builder,"output_buffer"));
 
     gtk_builder_connect_signals(builder, widgets0);
 
@@ -241,6 +247,9 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
+        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
+        char one[13];
+        char zero[13];
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
@@ -256,14 +265,21 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
+        IntToString(BS,BaseSequence,number);
+
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность: \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+
+        sprintf(&one, "1 - %d раз",CountI(BaseSequence, number, 1));
+        sprintf(&zero, "0 - %d раз",CountI(BaseSequence, number, 0));
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zero,-1);
+
         free(Sequence1); /*освобождаем выделенную память*/
 
         g_print("\nflag1!\n");
         flag = 0;
     }
-
-
-
 
     else if (flag == 2)
     {
@@ -385,6 +401,20 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         flag = 0;
     }
 
+
+}
+
+/*#################################################
+            Преобразование массива чисел в строку*/
+
+void IntToString(char* str,uint8_t* sequence,uint32_t length)
+{
+    for (uint32_t i = 0; i < length; i++)
+    {
+     sprintf(&str[i], "%d",sequence[i]);
+    }
+
+    str[length] = '\0';/*Добавили символ конца строки в последний элемент*/
 
 }
 
