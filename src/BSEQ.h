@@ -24,7 +24,7 @@ static void ExitMessage(void);
 int DescendingSort(const void* p1, const void* p2);
 uint32_t CountI(uint8_t* sequence, uint32_t length, int8_t value);
 uint32_t CountD(double* sequence, uint32_t length, double value);
-static void CalcProperties(double* sequence, uint32_t length);
+void CalcProperties(double* sequence, uint32_t length);
 /*#################################################*/
 
 

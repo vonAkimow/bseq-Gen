@@ -5,7 +5,7 @@
 int BGEN(void)
 {
 	const uint16_t number = 991;  /*простое число = длина последовательности*/
-	double* acf = (double*)calloc(number, sizeof(double));/*массив значений АКФ*/
+	double* acf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
 	atexit(ExitMessage);/*вывод сообщения по завершении программы*/
 
 #ifdef SHIFTNUMBER1
@@ -111,7 +111,7 @@ int BGEN(void)
 /*#################################ФУНКЦИИ#########################################*/
 
 /*расчёт макс/мин выбросов и частоты их появления*/
-static void CalcProperties(double* ACF, uint32_t length)
+void CalcProperties(double* ACF, uint32_t length)
 {
 	double min = 0;
 	double max = 0;
@@ -123,7 +123,7 @@ static void CalcProperties(double* ACF, uint32_t length)
 			max = ACF[k];
 		}
 	}
-	printf("\n\nSidePeakMax =  %.3f, %i times.", max, CountD(ACF, length, max));
+	printf("\n\nSidePeakMax =  %.3f, %i times.\n", max, CountD(ACF, length, max));
 
 
 	for (uint32_t s = 1; s < length; ++s)
@@ -133,7 +133,7 @@ static void CalcProperties(double* ACF, uint32_t length)
 			min = ACF[s];
 		}
 	}
-	printf("\nSidePeakMin = %.3f, %i times.", min, CountD(ACF, length, min));
+	printf("\nSidePeakMin = %.3f, %i times.\n", min, CountD(ACF, length, min));
 
 }
 
@@ -432,8 +432,8 @@ void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 void ACF(int8_t* sequence, uint32_t length, double* CF)
 {
 
-	int32_t* r = (int32_t*)calloc(length+1, sizeof(int32_t));
-	int8_t* sequence1 = (int8_t*)calloc(length+1, sizeof(int8_t));
+	int32_t* r = (int32_t*)calloc(length, sizeof(int32_t));
+	int8_t* sequence1 = (int8_t*)calloc(length, sizeof(int8_t));
 	uint32_t tau = 0, f = 0, g = 0;
 	double sum = 0;
 	CF[0] = 1;
@@ -445,7 +445,7 @@ void ACF(int8_t* sequence, uint32_t length, double* CF)
 	}
 	memcpy(sequence1, sequence, length); /*копируем sequence в sequence1*/
 
-	for (tau = 1; tau <= length; tau++)
+	for (tau = 1; tau < length; tau++)
 	{
 		register int8_t c = sequence1[length - 1]; /*запомнили последний элемент последовательности*/
 		for (g = length; g > 0; g--)
@@ -458,7 +458,7 @@ void ACF(int8_t* sequence, uint32_t length, double* CF)
 			r[f] = sequence1[f]*sequence[f];
 			sum = sum + r[f];
 		}
-		CF[tau] = sum / (float)length;
+		CF[tau] = sum / (double)length;
 		sum = 0;
 	}
 	free(sequence1);

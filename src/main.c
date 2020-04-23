@@ -20,6 +20,8 @@ typedef struct {
 
     /* Кнопки */
     GtkWidget*  w_generate_button;
+    GtkWidget*  w_pacf_button;
+    GtkWidget*  w_aacf_button;
 
 
     /* Текстовый буфер*/
@@ -57,6 +59,8 @@ int main(int argc, char *argv[])
     widgets0->w_s4_button = GTK_WIDGET(gtk_builder_get_object(builder,"s4_button"));
 
     widgets0->w_generate_button = GTK_WIDGET(gtk_builder_get_object(builder,"generate_button"));
+    widgets0->w_pacf_button = GTK_WIDGET(gtk_builder_get_object(builder,"pacf_button"));
+    widgets0->w_aacf_button = GTK_WIDGET(gtk_builder_get_object(builder,"aacf_button"));
 
     widgets0->w_output_buffer = GTK_TEXT_BUFFER(gtk_builder_get_object(builder,"output_buffer"));
 
@@ -81,7 +85,7 @@ int main(int argc, char *argv[])
 
     volatile uint8_t flag = 0;
     volatile uint32_t number = 0, shift1 = 0, shift2 = 0, shift3 = 0, shift4 = 0;
-    GtkTextIter* start,end;
+    volatile uint8_t* Sequence;
  /*##############################################*/
 
 
@@ -232,6 +236,9 @@ void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_widget_set_sensitive(app_wgts->w_generate_button, TRUE);
     }
 
+    gtk_widget_set_sensitive(app_wgts->w_aacf_button, FALSE); /*Кнопки блока статистической обработки становятся нечувствительными*/
+    gtk_widget_set_sensitive(app_wgts->w_pacf_button, FALSE);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Настройки применены, теперь можно сгенерировать последовательность \n",-1);
 }
 
 /*#################################################
@@ -252,7 +259,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         char ones[13] = {0};
         char zeros[13] = {0};
 
-        gtk_text_buffer_get_start_iter(app_wgts->w_output_buffer,&start);
+        //gtk_text_buffer_get_start_iter(app_wgts->w_output_buffer,&start);
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
         DisplaySequence(BaseSequence,number,"Prime sequence b1(k): ");
@@ -281,11 +288,15 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
-        gtk_text_buffer_get_end_iter(app_wgts->w_output_buffer,&end);
+        //gtk_text_buffer_get_end_iter(app_wgts->w_output_buffer,&end);
 
         free(Sequence1); /*освобождаем выделенную память*/
         free(BS);
-
+        printf("BaseSequence adress: %p\n",BaseSequence);
+        printf("First: %d, Second: %d\n",BaseSequence[0],BaseSequence[1]);
+        Sequence = BaseSequence;/*Теперь глобальная переменная Sequence указывает на первый элемент BaseSequence*/
+        printf("Sequence adress: %p\n",Sequence);
+        printf("First: %d, Second: %d\n",Sequence[0],Sequence[1]);
         g_print("\nflag1!\n");
         flag = 0;
     }
@@ -335,6 +346,12 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         free(Sequence1);
         free(Sequence2);
         free(BS);
+
+        printf("BaseSequence adress: %p\n",BaseSequence);
+        printf("First: %d, Second: %d\n",BaseSequence[0],BaseSequence[1]);
+        Sequence = BaseSequence;/*Теперь глобальная переменная Sequence указывает на первый элемент BaseSequence*/
+        printf("Sequence adress: %p\n",Sequence);
+        printf("First: %d, Second: %d\n",Sequence[0],Sequence[1]);
 
         g_print("\nflag2!\n");
         flag = 0;
@@ -393,6 +410,12 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         free(Sequence2);
         free(Sequence3);
         free(BS);
+
+        printf("BaseSequence adress: %p\n",BaseSequence);
+        printf("First: %d, Second: %d\n",BaseSequence[0],BaseSequence[1]);
+        Sequence = BaseSequence;/*Теперь глобальная переменная Sequence указывает на первый элемент BaseSequence*/
+        printf("Sequence adress: %p\n",Sequence);
+        printf("First: %d, Second: %d\n",Sequence[0],Sequence[1]);
 
         g_print("\nflag3!\n");
         flag = 0;
@@ -456,6 +479,12 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         free(Sequence4);
         free(BS);
 
+        printf("BaseSequence adress: %p\n",BaseSequence);
+        printf("First: %d, Second: %d\n",BaseSequence[0],BaseSequence[1]);
+        Sequence = BaseSequence;/*Теперь глобальная переменная Sequence указывает на первый элемент BaseSequence*/
+        printf("Sequence adress: %p\n",Sequence);
+        printf("First: %d, Second: %d\n",Sequence[0],Sequence[1]);
+
         g_print("\nflag4!\n");
         flag = 0;
     }
@@ -465,6 +494,8 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         flag = 0;
     }
 
+    gtk_widget_set_sensitive(app_wgts->w_aacf_button, TRUE);/*Кнопки блока статистической обработки становятся чувствительными*/
+    gtk_widget_set_sensitive(app_wgts->w_pacf_button, TRUE);
 
 }
 
@@ -480,6 +511,28 @@ void clear_textbuffer_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 }
 
+
+/*#################################################
+        Колбэк по нажатию кнопки "ПАКФ" */
+
+void pacf_button_clicked()
+{
+    double* acf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
+    printf("NUMBER: %d!\n",number);
+    ACF((int8_t*)Sequence, number, acf);
+    qsort((void*)acf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
+	DisplayCorrelation(acf, number, "ACF : ");
+	//printf("\n 1: %.3f,2: %.3f,3: %.3f \n",acf[0],acf[1],acf[2]);
+	CalcProperties(acf,number);
+}
+
+/*#################################################
+        Колбэк по нажатию кнопки "ААКФ" */
+
+void aacf_button_clicked()
+{
+    printf("AAKF PRESSED!\n");
+}
 
 /*#################################################
             Преобразование массива чисел в строку*/
