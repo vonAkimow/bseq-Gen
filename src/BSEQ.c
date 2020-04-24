@@ -119,6 +119,7 @@ void DisplayCorrelation(double* CF, uint32_t length, char* name)
 	{
 		printf("\n%.3f", CF[i]);
 	}
+	printf("\n");
 }
 
 /*Нахождение простых чисел*/

@@ -520,43 +520,75 @@ void pacf_button_clicked()
     double* aacf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
     printf("NUMBER: %d!\n",number);
     ACF((int8_t*)Sequence, number, aacf);
-    qsort((void*)aacf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
+    //qsort((void*)aacf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
 	DisplayCorrelation(aacf, number, "ACF : ");
 	CalcProperties(aacf,number);
 
     /*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
+    double* aacf_g = (double*)calloc(2*number-1, sizeof(double));/*массив значений ПАКФ для построения графика*/
+    aacf_g[number - 1] = aacf[0];/*Средний элемент нового массива = 1 элементу массива aacf*/
+
+    uint32_t num = number;
+
+    for (uint32_t x = 0; x < number - 1; x++)
+    {
+        aacf_g[x] = aacf[num - 1];
+        num --;
+    }
+
+    num = 1;
+
+    for (uint32_t x = number; x < (2*number -1); x++)
+    {
+        aacf_g[x] = aacf[num];
+        num++;
+    }
+
+    DisplayCorrelation(aacf_g, 2*number-1, "ACF_G : ");
+
+    //free(aacf)
     GtkWidget * chart;
     SlopeScale *scale;
     SlopeItem * series;
-    double *    x, *y;
-
+    SlopeSampler *sampler;
+    SlopeItem *   axis;
 
     chart = slope_chart_new();
 
-    /* create some sinusoidal data points */
-    long k, n = 900;
-    x         = g_malloc(n * sizeof(double));
-    y         = g_malloc(n * sizeof(double));
+    double * x = g_malloc((2*number-1) * sizeof(double));
 
+    double numb = (double)number;
 
-    for (k = 0; k < n; ++k)
+    for (uint32_t k = 0; k < (2*number -1); k++)
     {
-      x[k] = k * 1.0;
-      y[k] = k + 1.0;
+      x[k] = -numb +1;
+      numb--;
     }
 
+    printf("x[0] = %.3f,x[1] = %.3f,x[2] = %.3f\n",x[0],x[1],x[2]);
 
-    //scale = slope_xyscale_new();
-    scale = slope_xyscale_new_axis("Сдвиг","Модуль АКФ","ПАКФ");
-    slope_chart_add_scale(SLOPE_CHART(chart), scale);
+    scale = slope_xyscale_new_axis("Сдвиг","Модуль ПАКФ",NULL);
 
-    series = slope_xyseries_new_filled("ААКФ", x, y, n, "kOr");
+    slope_chart_add_scale(SLOPE_CHART(chart), SLOPE_XYSCALE(scale));
+
+    axis = slope_xyscale_get_axis(SLOPE_XYSCALE(scale), SLOPE_XYSCALE_AXIS_Y);
+
+    slope_xyscale_set_axis(SLOPE_XYSCALE(scale), SLOPE_XYSCALE_FRAME_AXIS_GRID);
+    sampler = slope_xyaxis_get_sampler(SLOPE_XYAXIS(axis));
+    slope_sampler_set_samples(sampler, slope_sampler_month_samples, 11);
+
+
+    slope_xyscale_set_interaction(SLOPE_XYSCALE(scale), SLOPE_XYSCALE_INTERACTION_ZOOM);/*Можно увеличивать график*/
+
+    series = slope_xyseries_new_filled(NULL, x, aacf_g, (long)(2*number -1), "b-");
+    slope_xyscale_set_y_range(SLOPE_XYSCALE(scale), -1.0, -1.0);
+
     slope_scale_add_item(scale, series);
 
     gtk_widget_show_all(chart);
+    free(aacf);
 
-
-	free(aacf);
+	;
 }
 
 /*#################################################
@@ -565,39 +597,6 @@ void pacf_button_clicked()
 void aacf_button_clicked()
 {
     printf("AAKF PRESSED!\n");
-    GtkWidget * chart;
-    SlopeScale *scale;
-    SlopeItem * series;
-    double *    x, *y;
-
-
-    chart = slope_chart_new();
-
-   // g_signal_connect(G_OBJECT(chart), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-  /* create some sinusoidal data points */
-  long k, n = 50;
-  x         = g_malloc(n * sizeof(double));
-  y         = g_malloc(n * sizeof(double));
-  double dx = 4.0 * G_PI / n;
-
-  for (k = 0; k < n; ++k)
-    {
-      x[k] = k * dx;
-      y[k] = sin(x[k]);
-    }
-
-
-    scale = slope_xyscale_new();
-    slope_chart_add_scale(SLOPE_CHART(chart), scale);
-
-    series = slope_xyseries_new_filled("ААКФ", x, y, n, "kOr");
-    slope_scale_add_item(scale, series);
-
-    gtk_widget_show_all(chart);
-       // g_free(v1);
-    // g_free(v2);
-
 
 }
 
