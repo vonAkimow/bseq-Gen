@@ -1,7 +1,6 @@
 #include "main.h"
 
 
-
 /* Структура адресов виджетов главного окна */
 typedef struct {
 
@@ -515,8 +514,9 @@ void clear_textbuffer_clicked(GtkWidget *widget, main_widgets* app_wgts)
 /*#################################################
                 Колбэк по нажатию кнопки "ПАКФ" */
 
-void pacf_button_clicked()
+void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
+    gtk_widget_set_sensitive(app_wgts->w_pacf_button, FALSE);
     double* aacf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
     printf("NUMBER: %d!\n",number);
     ACF((int8_t*)Sequence, number, aacf);
@@ -525,14 +525,15 @@ void pacf_button_clicked()
 	CalcProperties(aacf,number);
 
     /*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
-    double* aacf_g = (double*)calloc(2*number-1, sizeof(double));/*массив значений ПАКФ для построения графика*/
-    aacf_g[number - 1] = aacf[0];/*Средний элемент нового массива = 1 элементу массива aacf*/
-
+    double * x = g_malloc((2*number-1) * sizeof(double));/*массив значений сдвигов для построения графика*/
+    double*  y = (double*)calloc(2*number-1, sizeof(double));/*массив значений ПАКФ для построения графика*/
+    double numb = (double)number;
     uint32_t num = number;
+    y[number - 1] = aacf[0];/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
 
     for (uint32_t x = 0; x < number - 1; x++)
     {
-        aacf_g[x] = aacf[num - 1];
+        y[x] = aacf[num - 1];
         num --;
     }
 
@@ -540,55 +541,64 @@ void pacf_button_clicked()
 
     for (uint32_t x = number; x < (2*number -1); x++)
     {
-        aacf_g[x] = aacf[num];
+        y[x] = aacf[num];
         num++;
     }
-
-    DisplayCorrelation(aacf_g, 2*number-1, "ACF_G : ");
-
-    //free(aacf)
-    GtkWidget * chart;
-    SlopeScale *scale;
-    SlopeItem * series;
-    SlopeSampler *sampler;
-    SlopeItem *   axis;
-
-    chart = slope_chart_new();
-
-    double * x = g_malloc((2*number-1) * sizeof(double));
-
-    double numb = (double)number;
 
     for (uint32_t k = 0; k < (2*number -1); k++)
     {
       x[k] = -numb +1;
       numb--;
     }
+    printf("\n");
+    #if 0
+    printf("x[i]   acf_g[i]\n");
+    for(uint32_t i =0; i < (2*number -1);i++)
+    {
+        printf("%.3f\t%.3f\n", x[i], aacf_g[i]);
+    }
+    #endif
 
-    printf("x[0] = %.3f,x[1] = %.3f,x[2] = %.3f\n",x[0],x[1],x[2]);
+     char xrange[]="set xrange [:]\n";
+     char yrange[]="set yrange [:]\n";
 
-    scale = slope_xyscale_new_axis("Сдвиг","Модуль ПАКФ",NULL);
+     FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
 
-    slope_chart_add_scale(SLOPE_CHART(chart), SLOPE_XYSCALE(scale));
+    if (pipe != NULL)
+    {
 
-    axis = slope_xyscale_get_axis(SLOPE_XYSCALE(scale), SLOPE_XYSCALE_AXIS_Y);
+       // fprintf(pipe, "set yrange [-200:991]\n");
+        fprintf(pipe, "set title \"График периодической автокорреляционной функции\" textcolor lt 1\n");
+        fprintf(pipe, "set mxtics 10\n");/*10 дополнительных делений между х[i] и х[i+1]*/
+        fprintf(pipe, "set mytics 10\n");
+        fprintf(pipe, "set border 3\n");/*Отображаем только x,y линии осей*/
+        fprintf(pipe, "set xtics nomirror\n");/*Убираем штрихи на вспомогательных осях*/
+        fprintf(pipe, "set ytics nomirror\n");
+        fprintf(pipe, "set xlabel \"Сдвиг,t\" textcolor lt 1\n");
+        fprintf(pipe, "set ylabel \"Значения ПАКФ\" textcolor lt 1\n");
+        fprintf(pipe, "plot '-' u 1:2 w l\n");/*Строим график по точкам, соединяя линией: (x[i]\ty[i]\n) */
 
-    slope_xyscale_set_axis(SLOPE_XYSCALE(scale), SLOPE_XYSCALE_FRAME_AXIS_GRID);
-    sampler = slope_xyaxis_get_sampler(SLOPE_XYAXIS(axis));
-    slope_sampler_set_samples(sampler, slope_sampler_month_samples, 11);
+        for(uint32_t i =0; i < (2*number-1); i++)
+        {
+            fprintf(pipe, "%f\t%f\n", x[i], number*y[i]);
+        }
+
+        fprintf(pipe, "%s\n", "e");
+        //fflush(pipe);
 
 
-    slope_xyscale_set_interaction(SLOPE_XYSCALE(scale), SLOPE_XYSCALE_INTERACTION_ZOOM);/*Можно увеличивать график*/
+        pclose(pipe);/*Закрыли поток*/
 
-    series = slope_xyseries_new_filled(NULL, x, aacf_g, (long)(2*number -1), "b-");
-    slope_xyscale_set_y_range(SLOPE_XYSCALE(scale), -1.0, -1.0);
+    }
 
-    slope_scale_add_item(scale, series);
 
-    gtk_widget_show_all(chart);
+
+
     free(aacf);
+    free(y);
+    free(x);
 
-	;
+
 }
 
 /*#################################################
