@@ -513,40 +513,94 @@ void clear_textbuffer_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 
 /*#################################################
-        Колбэк по нажатию кнопки "ПАКФ" */
+                Колбэк по нажатию кнопки "ПАКФ" */
 
 void pacf_button_clicked()
 {
-    double* acf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
+    double* aacf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
     printf("NUMBER: %d!\n",number);
-    ACF((int8_t*)Sequence, number, acf);
-    qsort((void*)acf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
-	DisplayCorrelation(acf, number, "ACF : ");
-	//printf("\n 1: %.3f,2: %.3f,3: %.3f \n",acf[0],acf[1],acf[2]);
-	CalcProperties(acf,number);
+    ACF((int8_t*)Sequence, number, aacf);
+    qsort((void*)aacf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
+	DisplayCorrelation(aacf, number, "ACF : ");
+	CalcProperties(aacf,number);
+
+    /*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
+    GtkWidget * chart;
+    SlopeScale *scale;
+    SlopeItem * series;
+    double *    x, *y;
+
+
+    chart = slope_chart_new();
+
+    /* create some sinusoidal data points */
+    long k, n = 900;
+    x         = g_malloc(n * sizeof(double));
+    y         = g_malloc(n * sizeof(double));
+
+
+    for (k = 0; k < n; ++k)
+    {
+      x[k] = k * 1.0;
+      y[k] = k + 1.0;
+    }
+
+
+    //scale = slope_xyscale_new();
+    scale = slope_xyscale_new_axis("Сдвиг","Модуль АКФ","ПАКФ");
+    slope_chart_add_scale(SLOPE_CHART(chart), scale);
+
+    series = slope_xyseries_new_filled("ААКФ", x, y, n, "kOr");
+    slope_scale_add_item(scale, series);
+
+    gtk_widget_show_all(chart);
+
+
+	free(aacf);
 }
 
 /*#################################################
-        Колбэк по нажатию кнопки "ААКФ" */
+                Колбэк по нажатию кнопки "ААКФ" */
 
 void aacf_button_clicked()
 {
     printf("AAKF PRESSED!\n");
-}
+    GtkWidget * chart;
+    SlopeScale *scale;
+    SlopeItem * series;
+    double *    x, *y;
 
-/*#################################################
-            Преобразование массива чисел в строку*/
 
-static void IntToString(char* str,uint8_t* sequence,uint32_t length)
-{
-    for (uint32_t i = 0; i < length; i++)
+    chart = slope_chart_new();
+
+   // g_signal_connect(G_OBJECT(chart), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+  /* create some sinusoidal data points */
+  long k, n = 50;
+  x         = g_malloc(n * sizeof(double));
+  y         = g_malloc(n * sizeof(double));
+  double dx = 4.0 * G_PI / n;
+
+  for (k = 0; k < n; ++k)
     {
-     sprintf(&str[i], "%d",sequence[i]);
+      x[k] = k * dx;
+      y[k] = sin(x[k]);
     }
 
-    str[length] = '\0';/*Добавили символ конца строки в последний элемент*/
+
+    scale = slope_xyscale_new();
+    slope_chart_add_scale(SLOPE_CHART(chart), scale);
+
+    series = slope_xyseries_new_filled("ААКФ", x, y, n, "kOr");
+    slope_scale_add_item(scale, series);
+
+    gtk_widget_show_all(chart);
+       // g_free(v1);
+    // g_free(v2);
+
 
 }
+
 
 /*#################################################
                 Колбэк по закрытию главного окна*/

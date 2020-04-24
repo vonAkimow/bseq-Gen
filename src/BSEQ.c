@@ -1,116 +1,11 @@
 #include "BSEQ.h"
 
 
-/*#########################ТЕЛО ГЛАВНОЙ ПРОГРАММЫ#########################*/
-int BGEN(void)
-{
-	const uint16_t number = 991;  /*простое число = длина последовательности*/
-	double* acf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
-	atexit(ExitMessage);/*вывод сообщения по завершении программы*/
 
-#ifdef SHIFTNUMBER1
-	uint8_t* BaseSequence;
-	uint8_t* sequence1;
-
-	BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
-	sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	MakePrimeSequence(BaseSequence, number);
-	MakePrimeSequence(sequence1, number);
-	MakeBSequence(number, BaseSequence, sequence1);
-#endif /*SHIFTNUMBER1*/
-
-#ifdef SHIFTNUMBER2
-	uint8_t* BaseSequence;
-	uint8_t* sequence1;
-	uint8_t* sequence2;
-
-	BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	MakePrimeSequence(BaseSequence, number);
-	MakePrimeSequence(sequence1, number);
-	MakePrimeSequence(sequence2, number);
-	MakeBSequence(number, BaseSequence, sequence1, sequence2);
-#endif /*SHIFTNUMBER2*/
-
-#ifdef SHIFTNUMBER3
-	uint8_t* BaseSequence;
-	uint8_t* sequence1;
-	uint8_t* sequence2;
-	uint8_t* sequence3;
-
-	BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	MakePrimeSequence(BaseSequence, number);
-	MakePrimeSequence(sequence1, number);
-	MakePrimeSequence(sequence2, number);
-	MakePrimeSequence(sequence3, number);
-	MakeBSequence(number, BaseSequence, sequence1, sequence2, sequence3);
-#endif /*SHIFTNUMBER3*/
-
-#ifdef SHIFTNUMBER4
-	uint8_t* BaseSequence;
-	uint8_t* Sequence1;
-	uint8_t* Sequence2;
-	uint8_t* Sequence3;
-	uint8_t* Sequence4;
-
-	BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
-	Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	Sequence4 = (uint8_t*)calloc(number, sizeof(uint8_t));
-
-	MakePrimeSequence(BaseSequence, number);
-	MakePrimeSequence(Sequence1, number);
-	MakePrimeSequence(Sequence2, number);
-	MakePrimeSequence(Sequence3, number);
-	MakePrimeSequence(Sequence4, number);
-	MakeBSequence(number, BaseSequence, Sequence1, Sequence2, Sequence3, Sequence4);
-
-#endif /*SHIFTNUMBER4*/
-
-#ifdef SHIFTNUMBERS5
-	uint8_t* BaseSequence;
-	uint8_t* sequence1;
-	uint8_t* sequence2;
-	uint8_t* sequence3;
-	uint8_t* sequence4;
-	uint8_t* sequence5;
-
-	BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence4 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	sequence5 = (uint8_t*)calloc(number, sizeof(uint8_t));
-	MakePrimeSequence(BaseSequence, number);
-	MakePrimeSequence(sequence1, number);
-	MakePrimeSequence(sequence2, number);
-	MakePrimeSequence(sequence3, number);
-	MakePrimeSequence(sequence4, number);
-	MakePrimeSequence(sequence5, number);
-	MakeBSequence(number, BaseSequence, sequence1, sequence2, sequence3, sequence4, sequence5);
-#endif /*SHIFTNUMBER5*/
+/***************************ФУНКЦИИ, ИСПОЛЬЗУЕМЫЕ ДЛЯ ГЕНЕРАЦИИ В-ПОСЛЕДОВАТЕЛЬНОСТЕЙ****************************************/
 
 
-#if 0
-	ACF((int8_t*)BaseSequence, number, acf);
-	qsort((void*)acf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
-	/*DisplayCorrelation(acf, number, "ACF : ");*/
-	CalcProperties(acf, number);
-#endif
-
-	return 0;
-}
-/*#################################################################################*/
-
-
-/*#################################ФУНКЦИИ#########################################*/
-
-/*расчёт макс/мин выбросов и частоты их появления*/
+/*Расчёт макс/мин выбросов и частоты их появления*/
 void CalcProperties(double* ACF, uint32_t length)
 {
 	double min = 0;
@@ -137,7 +32,7 @@ void CalcProperties(double* ACF, uint32_t length)
 
 }
 
-/*число вхождений элемента value в массив sequence*/
+/*Число вхождений элемента value в массив sequence*/
 uint32_t CountD(double* sequence, uint32_t length, double value)
 {
 	uint32_t result = 0;
@@ -151,7 +46,7 @@ uint32_t CountD(double* sequence, uint32_t length, double value)
 	return result;
 }
 
-/*число вхождений целочисленного элемента в массив*/
+/*Число вхождений целочисленного элемента в массив*/
 uint32_t CountI(uint8_t* sequence, uint32_t length, int8_t value)
 {
 	uint32_t result = 0;
@@ -166,7 +61,7 @@ uint32_t CountI(uint8_t* sequence, uint32_t length, int8_t value)
 	return result;
 }
 
-/*сортировка элементов по возрастанию*/
+/*Сортировка элементов по возрастанию*/
 int DescendingSort(const void* p1, const void* p2)
 {
 	const double* a1 = (const double*)p1;
@@ -180,15 +75,7 @@ int DescendingSort(const void* p1, const void* p2)
 		return 1;
 }
 
-/*сообщение по окончании выполнения программы*/
-static void ExitMessage(void)
-{
-	puts("\n\n###################################");
-	puts("Calculations are over.");
-	puts("Soft created by Akimov Dmitry, 2020.");
-	puts("###################################\n");
-}
-
+/*Сдвиг вправо на 1 элемент*/
 static void OneRightShift(uint8_t* sequence, uint32_t length)
 {
 
@@ -198,7 +85,7 @@ static void OneRightShift(uint8_t* sequence, uint32_t length)
 	}
 }
 
-/*сдвиг вправо на nshifts элементов*/
+/*Сдвиг вправо на nshifts элементов*/
 void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
 {
 	if (nshifts > 0)
@@ -214,6 +101,7 @@ void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
 	}
 }
 
+/*Отображение массивов различных типов в терминале*/
 void DisplaySequence(uint8_t* sequence, uint32_t length, char* name)
 {
 	printf("\n%s", name);
@@ -233,6 +121,7 @@ void DisplayCorrelation(double* CF, uint32_t length, char* name)
 	}
 }
 
+/*Нахождение простых чисел*/
 static bool NumberIsPrime(uint32_t p)
 {
 	if (p < 2) return false;
@@ -259,167 +148,7 @@ void MakePrimeSequence(uint8_t* sequence, uint32_t number)
 	}
 }
 
-/*построение В-последовательности*/
-void MakeBSequence(uint32_t length, uint8_t* basesequence, uint8_t* sequence1, ...)
-{
-	va_list argptr;
-	va_start(argptr, sequence1); //argptr - ссылка на значение первого необязательного параметра (после sequence1)
-
-
-#ifdef SHIFTNUMBER1
-	DisplaySequence(sequence1, length, "S1:    ");
-	RightShifts(sequence1, length, 11);
-	DisplaySequence(sequence1, length, "S1->11: ");
-
-	SeqPSeq(basesequence, sequence1, length);
-	printf("\n");
-	DisplaySequence(basesequence, length, "B-Sequence :");
-	CountI(BaseSequence, number, 1);
-	CountI(BaseSequence, number, 0);
-	free(sequence1); //освобождаем выделенную память
-#endif // SHIFTNUMBER1
-
-#ifdef SHIFTNUMBER2
-	uint8_t* sequence2 = va_arg(argptr, uint8_t*); //получаем значение первого необязательного параметра
-
-	DisplaySequence(sequence2, length, "S2   : ");
-	DisplaySequence(sequence1, length, "S1   : ");
-	DisplaySequence(basesequence, length, "b(k) : ");
-	printf("\n");
-
-	RightShifts(sequence1, length, 37);
-	RightShifts(sequence2, length, 113);
-
-	DisplaySequence(sequence1, length, "S1->37: ");
-	DisplaySequence(sequence2, length, "S2->113: ");
-	printf("\n");
-
-	SeqPSeq(sequence1, sequence2, length);
-	DisplaySequence(sequence1, length, "S1+S2: ");
-	SeqPSeq(basesequence, sequence1, length);
-	printf("\n");
-	DisplaySequence(basesequence, length, "B-Sequence : ");
-	CountI(basesequence, length, 1);
-	CountI(basesequence, length, 0);
-	free(sequence1);
-	free(sequence2);
-#endif // SHIFTNUMBER2
-
-#ifdef SHIFTNUMBER3
-	uint8_t* sequence2 = va_arg(argptr, uint8_t*); //получаем значение первого необязательного параметра
-	uint8_t* sequence3 = va_arg(argptr, uint8_t*); //получаем значение второго необязательного параметра
-
-	// DisplaySequence(sequence3,length,"S3   : ");
-	// DisplaySequence(sequence2,length,"S2   : ");
-	// DisplaySequence(sequence1,length,"S1   : ");
-	// DisplaySequence(basesequence,length,"b(k) : ");
-	// printf("\n");
-
-	 RightShifts(sequence1, length, 11);
-	RightShifts(sequence2, length, 55);
-	RightShifts(sequence3, length, 222);
-
-	//DisplaySequence(sequence1,length,"S1->11: ");
-   // DisplaySequence(sequence2,length,"S2->50: ");
-   // DisplaySequence(sequence3,length,"S3->222: ");
-    printf("\n");
-
-	SeqPSeq(sequence1, sequence2, length);
-	// DisplaySequence(sequence1,length,"S1+S2: ");
-	 SeqPSeq(sequence3, sequence1, length);
-	// DisplaySequence(sequence3,length,"S1+S2+S3 : ");
-	// DisplaySequence(basesequence,length,"b(k)     : ");
-	 SeqPSeq(basesequence, sequence3, length);
-	printf("\n");
-	DisplaySequence(basesequence, length, "B-Sequence : ");
-	CountI(basesequence, length, 1);
-	CountI(basesequence, length, 0);
-	free(sequence1);
-	free(sequence2);
-	free(sequence3);
-#endif // SHIFTNUMBER3
-
-#ifdef SHIFTNUMBER4
-	uint8_t* sequence2 = va_arg(argptr, uint8_t*);
-	uint8_t* sequence3 = va_arg(argptr, uint8_t*);
-	uint8_t* sequence4 = va_arg(argptr, uint8_t*);
-	va_end(argptr);
-
-	RightShifts(sequence1, length, 15); //S1->15
-	RightShifts(sequence2, length, 266); //S2->266
-	RightShifts(sequence3, length, 299); //S3->299
-	RightShifts(sequence4, length, 650); //S4->650
-
-	SeqPSeq(sequence1, sequence2, length); //S1+S2
-	SeqPSeq(sequence3, sequence1, length); //S1+S2+S3
-	SeqPSeq(sequence4, sequence3, length); //S1+S2+S3+S4
-	SeqPSeq(basesequence, sequence4, length); //S1+S2+S3+S4+b(k)
-	printf("\n");
-	printf("Length: %i \n", length);
-	printf("Shifters: 4\n");
-	DisplaySequence(basesequence, length, "B-Sequence :\n");
-	printf("\n");
-	CountI(basesequence, length, 1);
-	CountI(basesequence, length, 0);
-
-	free(sequence1);
-	free(sequence2);
-	free(sequence3);
-	free(sequence4);
-#endif // SHIFTNUMBER4
-
-#ifdef SHIFTNUMBER5
-	uint8_t* sequence2 = va_arg(argptr, uint8_t*);
-	uint8_t* sequence3 = va_arg(argptr, uint8_t*);
-	uint8_t* sequence4 = va_arg(argptr, uint8_t*);
-	uint8_t* sequence5 = va_arg(argptr, uint8_t*);
-
-	DisplaySequence(sequence5, length, "S5   : ");
-	DisplaySequence(sequence4, length, "S4   : ");
-	DisplaySequence(sequence3, length, "S3   : ");
-	DisplaySequence(sequence2, length, "S2   : ");
-	DisplaySequence(sequence1, length, "S1   : ");
-	DisplaySequence(basesequence, length, "b(k) : ");
-	printf("\n");
-
-	RightShifts(sequence1, length, 1);
-	RightShifts(sequence2, length, 2);
-	RightShifts(sequence3, length, 3);
-	RightShifts(sequence4, length, 4);
-	RightShifts(sequence5, length, 5);
-
-	DisplaySequence(sequence1, length, "S1->1: ");
-	DisplaySequence(sequence2, length, "S2->2: ");
-	DisplaySequence(sequence3, length, "S3->3: ");
-	DisplaySequence(sequence4, length, "S4->4: ");
-	DisplaySequence(sequence5, length, "S5->5: ");
-	printf("\n");
-
-	SeqPSeq(sequence1, sequence2, length);
-	DisplaySequence(sequence1, length, "S1+S2: ");
-	SeqPSeq(sequence3, sequence1, length);
-	DisplaySequence(sequence3, length, "S1+S2+S3 : ");
-	SeqPSeq(sequence4, sequence3, length);
-	DisplaySequence(sequence4, length, "S1+S2+S3+S4 : ");
-	SeqPSeq(sequence5, sequence4, length);
-	DisplaySequence(sequence5, length, "S1+S2+S3+S4+S5 : ");
-
-	DisplaySequence(basesequence, length, "b(k)           : ");
-	SeqPSeq(basesequence, sequence5, length);
-	printf("\n");
-	DisplaySequence(basesequence, length, "B-Sequence : ");
-	CountI(basesequence, length, 1);
-	CountI(basesequence, length, 0);
-	free(sequence1);
-	free(sequence2);
-	free(sequence3);
-	free(sequence4);
-	free(sequence5);
-#endif // SHIFTNUMBER5
-
-}
-
-/*сумма по модулю 2, результат в basesequence*/
+/*Сумма по модулю 2, результат в basesequence*/
 void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 {
 	for (uint32_t i = 0; i < length; i++)
@@ -465,4 +194,15 @@ void ACF(int8_t* sequence, uint32_t length, double* CF)
 	free(r);
 }
 
-/*#################################################################################*/
+/*Преобразование массива чисел в строку*/
+void IntToString(char* str,uint8_t* sequence,uint32_t length)
+{
+    for (uint32_t i = 0; i < length; i++)
+    {
+     sprintf(&str[i], "%d",sequence[i]);
+    }
+
+    str[length] = '\0';/*Добавили символ конца строки в последний элемент*/
+
+}
+
