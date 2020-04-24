@@ -520,7 +520,6 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     double* aacf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
     printf("NUMBER: %d!\n",number);
     ACF((int8_t*)Sequence, number, aacf);
-    //qsort((void*)aacf, (size_t)number, sizeof(double), DescendingSort); /*быстрая сортировка по убыванию*/
 	DisplayCorrelation(aacf, number, "ACF : ");
 	CalcProperties(aacf,number);
 
@@ -531,6 +530,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     uint32_t num = number;
     y[number - 1] = aacf[0];/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
 
+    /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
     for (uint32_t x = 0; x < number - 1; x++)
     {
         y[x] = aacf[num - 1];
@@ -545,6 +545,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         num++;
     }
 
+    /*x[number-1]....,0,....,x[number-1]*/
     for (uint32_t k = 0; k < (2*number -1); k++)
     {
       x[k] = -numb +1;
@@ -561,6 +562,8 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
      char xrange[]="set xrange [:]\n";
      char yrange[]="set yrange [:]\n";
+     char slength[]="set key title \"Длина  \" textcolor lt 8\n";
+
 
      FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
 
@@ -568,17 +571,21 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     {
 
         /*Настройка gnuplot*/
-       // fprintf(pipe, "set yrange [-200:991]\n");
-        fprintf(pipe, "set title \"График периодической автокорреляционной функции\" textcolor lt 1\n");
-        fprintf(pipe, "set mxtics 10\n");/*10 дополнительных делений между х[i] и х[i+1]*/
-        fprintf(pipe, "set mytics 10\n");
+        fprintf(pipe,  "set title font \"Helvetica,16\"\n");
+        fprintf(pipe,  "set xlabel font \"Helvetica,11\"\n");
+        fprintf(pipe,  "set ylabel font \"Helvetica,11\"\n");
+        fprintf(pipe, "set title \"График периодической автокорреляционной функции\" textcolor lt 8\n");
+        fprintf(pipe, "set key title \"Длина 991\" textcolor lt 8\n");
+        fprintf(pipe, "set mxtics 5\n");/*5 дополнительных делений между х[i] и х[i+1]*/
+        fprintf(pipe, "set mytics 5\n");
+        fprintf(pipe, "set zeroaxis \n");
         fprintf(pipe, "set border 3\n");/*Отображаем только x,y линии осей*/
         fprintf(pipe, "set xtics nomirror\n");/*Убираем штрихи на вспомогательных осях*/
         fprintf(pipe, "set ytics nomirror\n");
         fprintf(pipe, "set grid\n");/*Включили сетку*/
-        fprintf(pipe, "set xlabel \"Сдвиг,t\" textcolor lt 1\n");
-        fprintf(pipe, "set ylabel \"Значения ПАКФ\" textcolor lt 1\n");
-        fprintf(pipe, "plot '-' u 1:2 w l\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n) */
+        fprintf(pipe, "set xlabel \"Значение сдвига, i\" textcolor  lt 8\n");
+        fprintf(pipe, "set ylabel \"Значение ПАКФ, y\" textcolor lt 8\n");
+        fprintf(pipe, "plot '-' u 1:2 w l lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
 
         for(uint32_t i =0; i < (2*number-1); i++)
         {
@@ -586,9 +593,6 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         }
 
         fprintf(pipe, "%s\n", "e");
-        //fflush(pipe);
-
-
         pclose(pipe);/*Закрыли поток*/
 
     }
