@@ -567,6 +567,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if (pipe != NULL)
     {
 
+        /*Настройка gnuplot*/
        // fprintf(pipe, "set yrange [-200:991]\n");
         fprintf(pipe, "set title \"График периодической автокорреляционной функции\" textcolor lt 1\n");
         fprintf(pipe, "set mxtics 10\n");/*10 дополнительных делений между х[i] и х[i+1]*/
@@ -574,9 +575,10 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe, "set border 3\n");/*Отображаем только x,y линии осей*/
         fprintf(pipe, "set xtics nomirror\n");/*Убираем штрихи на вспомогательных осях*/
         fprintf(pipe, "set ytics nomirror\n");
+        fprintf(pipe, "set grid\n");/*Включили сетку*/
         fprintf(pipe, "set xlabel \"Сдвиг,t\" textcolor lt 1\n");
         fprintf(pipe, "set ylabel \"Значения ПАКФ\" textcolor lt 1\n");
-        fprintf(pipe, "plot '-' u 1:2 w l\n");/*Строим график по точкам, соединяя линией: (x[i]\ty[i]\n) */
+        fprintf(pipe, "plot '-' u 1:2 w l\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n) */
 
         for(uint32_t i =0; i < (2*number-1); i++)
         {
