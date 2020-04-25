@@ -6,19 +6,19 @@
 
 
 /*Ðàñ÷¸ò ìàêñ/ìèí âûáðîñîâ è ÷àñòîòû èõ ïîÿâëåíèÿ*/
-void CalcProperties(double* ACF, uint32_t length)
+void CalcProperties(int16_t* ACF, uint32_t length)
 {
-	double min = 0;
-	double max = 0;
+	int16_t min = 0;
+	int16_t max = 0;
 
-	for (uint32_t k = 1; k < length; ++k)
+	for (uint16_t k = 1; k < length; ++k)
 	{
 		if (ACF[k] > max)
 		{
 			max = ACF[k];
 		}
 	}
-	printf("\n\nSidePeakMax =  %.3f, %i times.\n", max, CountD(ACF, length, max));
+	printf("\n\nSidePeakMax =  %d, %i times.\n", max, CountD(ACF, length, max));
 
 
 	for (uint32_t s = 1; s < length; ++s)
@@ -28,12 +28,12 @@ void CalcProperties(double* ACF, uint32_t length)
 			min = ACF[s];
 		}
 	}
-	printf("\nSidePeakMin = %.3f, %i times.\n", min, CountD(ACF, length, min));
+	printf("\nSidePeakMin = %d, %i times.\n", min, CountD(ACF, length, min));
 
 }
 
 /*×èñëî âõîæäåíèé ýëåìåíòà value â ìàññèâ sequence*/
-uint32_t CountD(double* sequence, uint32_t length, double value)
+uint32_t CountD(int16_t* sequence, uint32_t length, int16_t value)
 {
 	uint32_t result = 0;
 	for (uint32_t i = 0; i < length; ++i)
@@ -105,19 +105,19 @@ void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
 void DisplaySequence(uint8_t* sequence, uint32_t length, char* name)
 {
 	printf("\n%s", name);
-	for (uint32_t i = 0; i < length; i++)
+	for (uint16_t i = 0; i < length; i++)
 	{
 		printf("%i", sequence[i]);
 	}
 }
 
-void DisplayCorrelation(double* CF, uint32_t length, char* name)
+void DisplayCorrelation(int16_t* CF, uint32_t length, char* name)
 {
 	printf("\n");
 	printf("\n%s", name);
-	for (uint32_t i = 0; i < length; i++)
+	for (uint16_t i = 0; i < length; i++)
 	{
-		printf("\n%.3f", CF[i]);
+		printf("\n%d", CF[i]);
 	}
 	printf("\n");
 }
@@ -159,13 +159,13 @@ void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 }
 
 /*Ðàñ÷¸ò àâòîêîððåëÿöèîííîé ôóíêöèè ïîñëåäîâàòåëüíîñòè sequence äëèíû length*/
-void PACF(int8_t* sequence, uint32_t length, double* CF)
+void PACF(int8_t* sequence, uint32_t length, int16_t* CF)
 {
 
-	int32_t* r = (int32_t*)calloc(length, sizeof(int32_t));
+	int16_t* r = (int16_t*)calloc(length, sizeof(int16_t));
 	int8_t* sequence1 = (int8_t*)calloc(length, sizeof(int8_t));
 	uint32_t tau = 0, f = 0, g = 0;
-	double sum = 0;
+	int16_t sum = 0;
 	CF[0] = 1;
 
 	for (f = 0; f < length; f++)//çàìåíà íóëåé íà "-1"
@@ -178,7 +178,7 @@ void PACF(int8_t* sequence, uint32_t length, double* CF)
 	for (tau = 1; tau < length; tau++)
 	{
 		register int8_t c = sequence1[length - 1]; /*çàïîìíèëè ïîñëåäíèé ýëåìåíò ïîñëåäîâàòåëüíîñòè*/
-		for (g = length; g > 0; g--)
+		for (g = length-1; g > 0; g--)
 		{
 			sequence1[g] = sequence1[g - 1];
 		}
@@ -188,7 +188,7 @@ void PACF(int8_t* sequence, uint32_t length, double* CF)
 			r[f] = sequence1[f]*sequence[f];
 			sum = sum + r[f];
 		}
-		CF[tau] = sum / (double)length;
+		CF[tau] = sum;
 		sum = 0;
 	}
 	free(sequence1);
@@ -196,13 +196,13 @@ void PACF(int8_t* sequence, uint32_t length, double* CF)
 }
 
 /*РАСЧЁТ ПЕРИОДИЧЕСКОЙ АКФ*/
-void AACF(int8_t* sequence, uint32_t length, int8_t* CF)
+void AACF(int8_t* sequence, uint32_t length, int16_t* CF)
 {
 
-	int32_t* r = (int32_t*)calloc(length, sizeof(int32_t));
+	int16_t* r = (int16_t*)calloc(length, sizeof(int16_t));
 	int8_t* sequence1 = (int8_t*)calloc(length, sizeof(int8_t));
-	uint32_t tau = 0, f = 0, g = 0;
-	uint32_t sum = 0;
+	uint16_t tau = 0, f = 0, g = 0;
+	uint16_t sum = 0;
 	CF[0] = length;
 
 	for (f = 0; f < length; f++)/*Замена нулей на "-1"*/

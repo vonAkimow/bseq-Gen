@@ -896,6 +896,7 @@
                         <property name="valign">center</property>
                         <property name="image">generate1</property>
                         <property name="always_show_image">True</property>
+                        <signal name="clicked" handler="generate_button1_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
