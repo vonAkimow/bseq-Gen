@@ -484,7 +484,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         printf("Sequence adress: %p\n",Sequence);
         printf("First: %d, Second: %d\n",Sequence[0],Sequence[1]);
 
-        g_print("\nflag4!\n");
+        g_print("\nfla32g4!\n");
         flag = 0;
     }
     else
@@ -511,29 +511,29 @@ void clear_textbuffer_clicked(GtkWidget *widget, main_widgets* app_wgts)
 }
 
 
-/*#################################################
+/*####################32#############################
                 Колбэк по нажатию кнопки "ПАКФ" */
 
 void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
     gtk_widget_set_sensitive(app_wgts->w_pacf_button, FALSE);
-    double* aacf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
+    double* pacf = (double*)calloc(number, sizeof(double));/*массив значений ПАКФ*/
     printf("NUMBER: %d!\n",number);
-    ACF((int8_t*)Sequence, number, aacf);
-	DisplayCorrelation(aacf, number, "ACF : ");
-	CalcProperties(aacf,number);
+    PACF((int8_t*)Sequence, number, pacf);/*Расчёт ПАКФ*/
+	DisplayCorrelation(pacf, number, "ACF : ");/*Вывод ПАКФ в консоль*/
+	CalcProperties(pacf,number);
 
     /*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
     double * x = g_malloc((2*number-1) * sizeof(double));/*массив значений сдвигов для построения графика*/
     double*  y = (double*)calloc(2*number-1, sizeof(double));/*массив значений ПАКФ для построения графика*/
     double numb = (double)number;
     uint32_t num = number;
-    y[number - 1] = aacf[0];/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
+    y[number - 1] = pacf[0];/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
 
     /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
     for (uint32_t x = 0; x < number - 1; x++)
     {
-        y[x] = aacf[num - 1];
+        y[x] = pacf[num - 1];
         num --;
     }
 
@@ -541,7 +541,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
     for (uint32_t x = number; x < (2*number -1); x++)
     {
-        y[x] = aacf[num];
+        y[x] = pacf[num];
         num++;
     }
 
@@ -565,7 +565,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
      char slength[]="set key title \"Длина  \" textcolor lt 8\n";
 
 
-     FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
+    FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
 
     if (pipe != NULL)
     {
@@ -600,7 +600,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 
 
-    free(aacf);
+    free(pacf);
     free(y);
     free(x);
 
@@ -610,10 +610,14 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 /*#################################################
                 Колбэк по нажатию кнопки "ААКФ" */
 
-void aacf_button_clicked()
+void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
     printf("AAKF PRESSED!\n");
-
+    gtk_widget_set_sensitive(app_wgts->w_aacf_button, FALSE);
+    int8_t* aacf = (int8_t*)calloc(number, sizeof(int8_t));/*массив значений ААКФ*/
+    printf("NUMBER: %d!\n",number);
+    AACF((int8_t*)Sequence, number, aacf);/*Расчёт ПАКФ*/
+    printf("aacf[0] = %d, aacf[1] = %d, aacf[2] = %d \n",aacf[0],aacf[1],aacf[2]);
 }
 
 

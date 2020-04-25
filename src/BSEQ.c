@@ -2,10 +2,10 @@
 
 
 
-/***************************ФУНКЦИИ, ИСПОЛЬЗУЕМЫЕ ДЛЯ ГЕНЕРАЦИИ В-ПОСЛЕДОВАТЕЛЬНОСТЕЙ****************************************/
+/***************************Г”Г“ГЌГЉГ–Г€Г€, Г€Г‘ГЏГЋГ‹ГњГ‡Г“Г…ГЊГ›Г… Г„Г‹Гџ ГѓГ…ГЌГ…ГђГЂГ–Г€Г€ Г‚-ГЏГЋГ‘Г‹Г…Г„ГЋГ‚ГЂГ’Г…Г‹ГњГЌГЋГ‘Г’Г…Г‰****************************************/
 
 
-/*Расчёт макс/мин выбросов и частоты их появления*/
+/*ГђГ Г±Г·ВёГІ Г¬Г ГЄГ±/Г¬ГЁГ­ ГўГ»ГЎГ°Г®Г±Г®Гў ГЁ Г·Г Г±ГІГ®ГІГ» ГЁГµ ГЇГ®ГїГўГ«ГҐГ­ГЁГї*/
 void CalcProperties(double* ACF, uint32_t length)
 {
 	double min = 0;
@@ -32,7 +32,7 @@ void CalcProperties(double* ACF, uint32_t length)
 
 }
 
-/*Число вхождений элемента value в массив sequence*/
+/*Г—ГЁГ±Г«Г® ГўГµГ®Г¦Г¤ГҐГ­ГЁГ© ГЅГ«ГҐГ¬ГҐГ­ГІГ  value Гў Г¬Г Г±Г±ГЁГў sequence*/
 uint32_t CountD(double* sequence, uint32_t length, double value)
 {
 	uint32_t result = 0;
@@ -46,7 +46,7 @@ uint32_t CountD(double* sequence, uint32_t length, double value)
 	return result;
 }
 
-/*Число вхождений целочисленного элемента в массив*/
+/*Г—ГЁГ±Г«Г® ГўГµГ®Г¦Г¤ГҐГ­ГЁГ© Г¶ГҐГ«Г®Г·ГЁГ±Г«ГҐГ­Г­Г®ГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ  Гў Г¬Г Г±Г±ГЁГў*/
 uint32_t CountI(uint8_t* sequence, uint32_t length, int8_t value)
 {
 	uint32_t result = 0;
@@ -61,7 +61,7 @@ uint32_t CountI(uint8_t* sequence, uint32_t length, int8_t value)
 	return result;
 }
 
-/*Сортировка элементов по возрастанию*/
+/*Г‘Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў ГЇГ® ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ*/
 int DescendingSort(const void* p1, const void* p2)
 {
 	const double* a1 = (const double*)p1;
@@ -75,7 +75,7 @@ int DescendingSort(const void* p1, const void* p2)
 		return 1;
 }
 
-/*Сдвиг вправо на 1 элемент*/
+/*Г‘Г¤ГўГЁГЈ ГўГЇГ°Г ГўГ® Г­Г  1 ГЅГ«ГҐГ¬ГҐГ­ГІ*/
 static void OneRightShift(uint8_t* sequence, uint32_t length)
 {
 
@@ -85,7 +85,7 @@ static void OneRightShift(uint8_t* sequence, uint32_t length)
 	}
 }
 
-/*Сдвиг вправо на nshifts элементов*/
+/*Г‘Г¤ГўГЁГЈ ГўГЇГ°Г ГўГ® Г­Г  nshifts ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў*/
 void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
 {
 	if (nshifts > 0)
@@ -101,7 +101,7 @@ void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts)
 	}
 }
 
-/*Отображение массивов различных типов в терминале*/
+/*ГЋГІГ®ГЎГ°Г Г¦ГҐГ­ГЁГҐ Г¬Г Г±Г±ГЁГўГ®Гў Г°Г Г§Г«ГЁГ·Г­Г»Гµ ГІГЁГЇГ®Гў Гў ГІГҐГ°Г¬ГЁГ­Г Г«ГҐ*/
 void DisplaySequence(uint8_t* sequence, uint32_t length, char* name)
 {
 	printf("\n%s", name);
@@ -122,7 +122,7 @@ void DisplayCorrelation(double* CF, uint32_t length, char* name)
 	printf("\n");
 }
 
-/*Нахождение простых чисел*/
+/*ГЌГ ГµГ®Г¦Г¤ГҐГ­ГЁГҐ ГЇГ°Г®Г±ГІГ»Гµ Г·ГЁГ±ГҐГ«*/
 static bool NumberIsPrime(uint32_t p)
 {
 	if (p < 2) return false;
@@ -138,7 +138,7 @@ static bool NumberIsPrime(uint32_t p)
 	return true;
 }
 
-/*Строим двоичную последовательность простых чисел*/
+/*Г‘ГІГ°Г®ГЁГ¬ Г¤ГўГ®ГЁГ·Г­ГіГѕ ГЇГ®Г±Г«ГҐГ¤Г®ГўГ ГІГҐГ«ГјГ­Г®Г±ГІГј ГЇГ°Г®Г±ГІГ»Гµ Г·ГЁГ±ГҐГ«*/
 void MakePrimeSequence(uint8_t* sequence, uint32_t number)
 {
 	uint8_t j = 1;
@@ -149,7 +149,7 @@ void MakePrimeSequence(uint8_t* sequence, uint32_t number)
 	}
 }
 
-/*Сумма по модулю 2, результат в basesequence*/
+/*Г‘ГіГ¬Г¬Г  ГЇГ® Г¬Г®Г¤ГіГ«Гѕ 2, Г°ГҐГ§ГіГ«ГјГІГ ГІ Гў basesequence*/
 void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 {
 	for (uint32_t i = 0; i < length; i++)
@@ -158,8 +158,8 @@ void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 	}
 }
 
-/*Расчёт автокорреляционной функции последовательности sequence длины length*/
-void ACF(int8_t* sequence, uint32_t length, double* CF)
+/*ГђГ Г±Г·ВёГІ Г ГўГІГ®ГЄГ®Г°Г°ГҐГ«ГїГ¶ГЁГ®Г­Г­Г®Г© ГґГіГ­ГЄГ¶ГЁГЁ ГЇГ®Г±Г«ГҐГ¤Г®ГўГ ГІГҐГ«ГјГ­Г®Г±ГІГЁ sequence Г¤Г«ГЁГ­Г» length*/
+void PACF(int8_t* sequence, uint32_t length, double* CF)
 {
 
 	int32_t* r = (int32_t*)calloc(length, sizeof(int32_t));
@@ -168,21 +168,21 @@ void ACF(int8_t* sequence, uint32_t length, double* CF)
 	double sum = 0;
 	CF[0] = 1;
 
-	for (f = 0; f < length; f++)//замена нулей на "-1"
+	for (f = 0; f < length; f++)//Г§Г Г¬ГҐГ­Г  Г­ГіГ«ГҐГ© Г­Г  "-1"
 	{
 		if (sequence[f] == 0) sequence[f] = -1;
 		else sequence[f] = 1;
 	}
-	memcpy(sequence1, sequence, length); /*копируем sequence в sequence1*/
+	memcpy(sequence1, sequence, length); /*ГЄГ®ГЇГЁГ°ГіГҐГ¬ sequence Гў sequence1*/
 
 	for (tau = 1; tau < length; tau++)
 	{
-		register int8_t c = sequence1[length - 1]; /*запомнили последний элемент последовательности*/
+		register int8_t c = sequence1[length - 1]; /*Г§Г ГЇГ®Г¬Г­ГЁГ«ГЁ ГЇГ®Г±Г«ГҐГ¤Г­ГЁГ© ГЅГ«ГҐГ¬ГҐГ­ГІ ГЇГ®Г±Г«ГҐГ¤Г®ГўГ ГІГҐГ«ГјГ­Г®Г±ГІГЁ*/
 		for (g = length; g > 0; g--)
 		{
 			sequence1[g] = sequence1[g - 1];
 		}
-		sequence1[0] = c; /*первый элемент равен последнему*/
+		sequence1[0] = c; /*ГЇГҐГ°ГўГ»Г© ГЅГ«ГҐГ¬ГҐГ­ГІ Г°Г ГўГҐГ­ ГЇГ®Г±Г«ГҐГ¤Г­ГҐГ¬Гі*/
 		for(f = 0 ; f < length ; f++)
 		{
 			r[f] = sequence1[f]*sequence[f];
@@ -195,7 +195,44 @@ void ACF(int8_t* sequence, uint32_t length, double* CF)
 	free(r);
 }
 
-/*Преобразование массива чисел в строку*/
+/*Р РђРЎР§РЃРў РџР•Р РРћР”РР§Р•РЎРљРћР™ РђРљР¤*/
+void AACF(int8_t* sequence, uint32_t length, int8_t* CF)
+{
+
+	int32_t* r = (int32_t*)calloc(length, sizeof(int32_t));
+	int8_t* sequence1 = (int8_t*)calloc(length, sizeof(int8_t));
+	uint32_t tau = 0, f = 0, g = 0;
+	uint32_t sum = 0;
+	CF[0] = length;
+
+	for (f = 0; f < length; f++)/*Р—Р°РјРµРЅР° РЅСѓР»РµР№ РЅР° "-1"*/
+	{
+		if (sequence[f] == 0) sequence[f] = -1;
+		else sequence[f] = 1;
+	}
+	memcpy(sequence1, sequence, length); /*РЎРєРѕРїРёСЂРѕРІР°Р»Рё sequence РІ sequence1*/
+
+    for (tau = 1; tau < length; tau++)
+	{
+		for (g = length - 1; g > 0; g--)
+		{
+			sequence1[g] = sequence1[g - 1];
+		}
+
+		for(f = tau ; f < length ; f++)
+		{
+			r[f] = sequence1[f]*sequence[f];
+			sum += r[f];
+		}
+		CF[tau] = sum;
+		sum = 0;
+	}
+
+	free(sequence1);
+	free(r);
+}
+
+/*ГЏГ°ГҐГ®ГЎГ°Г Г§Г®ГўГ Г­ГЁГҐ Г¬Г Г±Г±ГЁГўГ  Г·ГЁГ±ГҐГ« Гў Г±ГІГ°Г®ГЄГі*/
 void IntToString(char* str,uint8_t* sequence,uint32_t length)
 {
     for (uint32_t i = 0; i < length; i++)
@@ -203,7 +240,7 @@ void IntToString(char* str,uint8_t* sequence,uint32_t length)
      sprintf(&str[i], "%d",sequence[i]);
     }
 
-    str[length] = '\0';/*Добавили символ конца строки в последний элемент*/
+    str[length] = '\0';/*Г„Г®ГЎГ ГўГЁГ«ГЁ Г±ГЁГ¬ГўГ®Г« ГЄГ®Г­Г¶Г  Г±ГІГ°Г®ГЄГЁ Гў ГЇГ®Г±Г«ГҐГ¤Г­ГЁГ© ГЅГ«ГҐГ¬ГҐГ­ГІ*/
 
 }
 
