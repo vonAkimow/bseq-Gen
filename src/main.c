@@ -33,6 +33,8 @@ typedef struct {
     GtkWidget*  w_generate_button;
     GtkWidget*  w_pacf_button;
     GtkWidget*  w_aacf_button;
+    GtkWidget*  w_pvcf_button;
+    GtkWidget*  w_avcf_button;
     GtkWidget*  w_generate_button1;
 
 
@@ -84,6 +86,8 @@ int main(int argc, char *argv[])
     widgets0->w_generate_button1 = GTK_WIDGET(gtk_builder_get_object(builder,"generate_button1"));
     widgets0->w_pacf_button = GTK_WIDGET(gtk_builder_get_object(builder,"pacf_button"));
     widgets0->w_aacf_button = GTK_WIDGET(gtk_builder_get_object(builder,"aacf_button"));
+    widgets0->w_pvcf_button = GTK_WIDGET(gtk_builder_get_object(builder,"pvcf_button"));
+    widgets0->w_avcf_button = GTK_WIDGET(gtk_builder_get_object(builder,"avcf_button"));
 
     widgets0->w_output_buffer = GTK_TEXT_BUFFER(gtk_builder_get_object(builder,"output_buffer"));
 
@@ -108,10 +112,14 @@ int main(int argc, char *argv[])
 
     volatile uint8_t flag = 0;
     volatile uint32_t number = 0, shift1 = 0, shift2 = 0, shift3 = 0, shift4 = 0;
-    volatile uint8_t* AV_Sequence;
-    volatile uint8_t* PV_Sequence;
     volatile uint8_t* AA_Sequence;
     volatile uint8_t* PA_Sequence;
+    volatile uint8_t* AV_Sequence1;
+    volatile uint8_t* AV_Sequence2;
+    volatile uint8_t* PV_Sequence1;
+    volatile uint8_t* PV_Sequence2;
+
+
  /*##############################################*/
 
 
@@ -275,6 +283,12 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
     uint8_t* PAKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
     uint8_t* AAKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
+    uint8_t* PVKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
+    uint8_t* AVKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
+    char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
+    char ones[13] = {0};
+    char zeros[13] = {0};
+
 
     g_print("GEEENERATE!!!\n");
     gtk_widget_set_sensitive(app_wgts->w_generate_button, FALSE);
@@ -283,13 +297,8 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if (flag == 1)
     {
 
-        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
 
-        //gtk_text_buffer_get_start_iter(app_wgts->w_output_buffer,&start);
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
         DisplaySequence(BaseSequence,number,"Prime sequence b1(k): ");
@@ -311,21 +320,25 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %d, ",count1);
-        sprintf(&zeros, "<0> - %d.",number - count1);
+        sprintf(ones, "<1> - %d, ",count1);
+        sprintf(zeros, "<0> - %d.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
-        for(uint16_t z = 0; z < number; z++)
+        for(uint16_t z=0; z < number; z++)
         {
             PAKFSequence[z] = BaseSequence[z];
             AAKFSequence[z] = BaseSequence[z];
+            PVKFSequence[z] = BaseSequence[z];
+            AVKFSequence[z] = BaseSequence[z];
         }
 
         AA_Sequence = AAKFSequence;
         PA_Sequence = PAKFSequence;
+        AV_Sequence1 = AVKFSequence;
+        PV_Sequence1 = PVKFSequence;
 
 
         free(Sequence1); /*освобождаем выделенную память*/
@@ -340,12 +353,8 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     else if (flag == 2)
     {
 
-        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
@@ -372,8 +381,8 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %u, ",count1);
-        sprintf(&zeros, "<0> - %u.",number - count1);
+        sprintf(ones, "<1> - %u, ",count1);
+        sprintf(zeros, "<0> - %u.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
@@ -383,10 +392,14 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         {
             PAKFSequence[z] = BaseSequence[z];
             AAKFSequence[z] = BaseSequence[z];
+            PVKFSequence[z] = BaseSequence[z];
+            AVKFSequence[z] = BaseSequence[z];
         }
 
         AA_Sequence = AAKFSequence;
         PA_Sequence = PAKFSequence;
+        AV_Sequence1 = AVKFSequence;
+        PV_Sequence1 = PVKFSequence;
 
         free(Sequence1);
         free(Sequence2);
@@ -397,25 +410,18 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         flag = 0;
     }
 
-
     else if (flag == 3)
     {
 
-        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
         MakePrimeSequence(Sequence2, number);
         MakePrimeSequence(Sequence3, number);
         DisplaySequence(BaseSequence,number,"Prime sequence b3(k): ");
-
-
 
         RightShifts(Sequence1, number, shift1);//S1>>shift1
         RightShifts(Sequence2, number, shift2);//S2>>shift2
@@ -439,8 +445,8 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %u, ",count1);
-        sprintf(&zeros, "<0> - %u.",number - count1);
+        sprintf(ones, "<1> - %u, ",count1);
+        sprintf(zeros, "<0> - %u.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
@@ -450,10 +456,14 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         {
             PAKFSequence[z] = BaseSequence[z];
             AAKFSequence[z] = BaseSequence[z];
+            PVKFSequence[z] = BaseSequence[z];
+            AVKFSequence[z] = BaseSequence[z];
         }
 
         AA_Sequence = AAKFSequence;
         PA_Sequence = PAKFSequence;
+        AV_Sequence1 = AVKFSequence;
+        PV_Sequence1 = PVKFSequence;
 
         free(Sequence1);
         free(Sequence2);
@@ -469,14 +479,10 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     else if (flag == 4)
     {
 
-        //uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence4 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);//b(k)
         MakePrimeSequence(Sequence1, number);//S1
@@ -509,8 +515,8 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %u, ",count1);
-        sprintf(&zeros, "<0> - %u.",number - count1);
+        sprintf(ones, "<1> - %u, ",count1);
+        sprintf(zeros, "<0> - %u.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
@@ -520,10 +526,14 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         {
             PAKFSequence[z] = BaseSequence[z];
             AAKFSequence[z] = BaseSequence[z];
+            PVKFSequence[z] = BaseSequence[z];
+            AVKFSequence[z] = BaseSequence[z];
         }
 
         AA_Sequence = AAKFSequence;
         PA_Sequence = PAKFSequence;
+        AV_Sequence1 = AVKFSequence;
+        PV_Sequence1 = PVKFSequence;
 
 
         free(Sequence1);
@@ -570,6 +580,9 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
     uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
     uint8_t* PVKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
     uint8_t* AVKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
+    char*              BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
+    char ones[13] = {0};
+    char zeros[13] = {0};
 
         /* Сначала определяем выбранную радиокнопку */
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s1_button2)))  /* 1 СДВИГ */
@@ -577,7 +590,6 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         g_print("SHIFTS1!\n");
 
         /* Считываем значения соответствующих спин кнопок */
-        char len[5] = {0};
         char sht1[5] = {0};
 
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn2));
@@ -587,9 +599,6 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         g_print(sht1);
 
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
@@ -611,8 +620,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %d, ",count1);
-        sprintf(&zeros, "<0> - %d.",number - count1);
+        sprintf(ones, "<1> - %d, ",count1);
+        sprintf(zeros, "<0> - %d.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
@@ -624,8 +633,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
             PVKFSequence[z] = BaseSequence[z];
         }
 
-        AV_Sequence = AVKFSequence;
-        PV_Sequence = PVKFSequence;
+        AV_Sequence2 = AVKFSequence;
+        PV_Sequence2 = PVKFSequence;
 
         free(Sequence1); /*освобождаем выделенную память*/
         free(BS);
@@ -652,9 +661,6 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
@@ -680,8 +686,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %u, ",count1);
-        sprintf(&zeros, "<0> - %u.",number - count1);
+        sprintf(ones, "<1> - %u, ",count1);
+        sprintf(zeros, "<0> - %u.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
@@ -693,8 +699,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
             PVKFSequence[z] = BaseSequence[z];
         }
 
-        AV_Sequence = AVKFSequence;
-        PV_Sequence = PVKFSequence;
+        AV_Sequence2 = AVKFSequence;
+        PV_Sequence2 = PVKFSequence;
 
         free(Sequence1);
         free(Sequence2);
@@ -727,9 +733,6 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
@@ -761,8 +764,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %u, ",count1);
-        sprintf(&zeros, "<0> - %u.",number - count1);
+        sprintf(ones, "<1> - %u, ",count1);
+        sprintf(zeros, "<0> - %u.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
@@ -774,8 +777,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
             PVKFSequence[z] = BaseSequence[z];
         }
 
-        AV_Sequence = AVKFSequence;
-        PV_Sequence = PVKFSequence;
+        AV_Sequence2 = AVKFSequence;
+        PV_Sequence2 = PVKFSequence;
 
         free(Sequence1);
         free(Sequence2);
@@ -815,9 +818,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence3 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence4 = (uint8_t*)calloc(number, sizeof(uint8_t));
-        char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
-        char ones[13] = {0};
-        char zeros[13] = {0};
+
 
         MakePrimeSequence(BaseSequence, number);//b(k)
         MakePrimeSequence(Sequence1, number);//S1
@@ -850,8 +851,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
 
-        sprintf(&ones, "<1> - %u, ",count1);
-        sprintf(&zeros, "<0> - %u.",number - count1);
+        sprintf(ones, "<1> - %u, ",count1);
+        sprintf(zeros, "<0> - %u.",number - count1);
 
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
@@ -863,8 +864,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
             PVKFSequence[z] = BaseSequence[z];
         }
 
-        AV_Sequence = AVKFSequence;
-        PV_Sequence = PVKFSequence;
+        AV_Sequence2 = AVKFSequence;
+        PV_Sequence2 = PVKFSequence;
 
 
         free(Sequence1);
@@ -876,6 +877,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
     }
 
+    gtk_widget_set_sensitive(app_wgts->w_avcf_button, TRUE);/*Кнопки блока статистической обработки становятся чувствительными*/
+    gtk_widget_set_sensitive(app_wgts->w_pvcf_button, TRUE);
 }
 
 
@@ -928,18 +931,9 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
       numb--;
     }
     printf("\n");
-    #if 0
-    printf("x[i]   acf_g[i]\n");
-    for(uint32_t i =0; i < (2*number -1);i++)
-    {
-        printf("%.3f\t%.3f\n", x[i], aacf_g[i]);
-    }
-    #endif
 
-     char xrange[]="set xrange [:]\n";
-     char yrange[]="set yrange [:]\n";
-     char slength[]="set key title \"Длина  \" textcolor lt 8\n";
-
+    char slength[46];
+    sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
 
     FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
 
@@ -951,7 +945,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe,  "set xlabel font \"Helvetica,11\"\n");
         fprintf(pipe,  "set ylabel font \"Helvetica,11\"\n");
         fprintf(pipe, "set title \"График периодической автокорреляционной функции\" textcolor lt 8\n");
-        fprintf(pipe, "set key title \"Длина 991\" textcolor lt 8\n");
+        fprintf(pipe, slength);
         fprintf(pipe, "set mxtics 5\n");/*5 дополнительных делений между х[i] и х[i+1]*/
         fprintf(pipe, "set mytics 5\n");
         fprintf(pipe, "set zeroaxis \n");
@@ -972,7 +966,8 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         pclose(pipe);/*Закрыли поток*/
 
     }
-    free(PA_Sequence);
+
+    free((void*)PA_Sequence);
     free(pacf);
     free(y);
     free(x);
@@ -1023,9 +1018,8 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     printf("\n");
 
 
-     char xrange[]="set xrange [:]\n";
-     char yrange[]="set yrange [:]\n";
-     char slength[]="set key title \"Длина  \" textcolor lt 8\n";
+     char slength[46];
+     sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
 
 
     FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
@@ -1038,7 +1032,7 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe,  "set xlabel font \"Helvetica,11\"\n");
         fprintf(pipe,  "set ylabel font \"Helvetica,11\"\n");
         fprintf(pipe, "set title \"График апериодической автокорреляционной функции\" textcolor lt 8\n");
-        fprintf(pipe, "set key title \"Длина 991\" textcolor lt 8\n");
+        fprintf(pipe, slength);
         fprintf(pipe, "set mxtics 5\n");/*5 дополнительных делений между х[i] и х[i+1]*/
         fprintf(pipe, "set mytics 5\n");
         fprintf(pipe, "set zeroaxis \n");
@@ -1059,10 +1053,179 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         pclose(pipe);/*Закрыли поток*/
 
     }
-    free(AA_Sequence);
+    free((void*)AA_Sequence);
     free(aacf);
     free(y);
     free(x);
+}
+
+
+/*#################################################
+                Колбэк по нажатию кнопки "ПВКФ" */
+void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
+{
+    printf("PVCF clicked!\n");
+    gtk_widget_set_sensitive(app_wgts->w_pvcf_button, FALSE);
+    int16_t* pvcf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений ПВКФ*/
+    printf("NUMBER: %d!\n",number);
+    PVCF((int8_t*)PV_Sequence1, (int8_t*)PV_Sequence2, number, pvcf);/*Расчёт ПВКФ*/
+	DisplayCorrelation(pvcf, number, "VCF : ");/*Вывод ПВКФ в консоль*/
+	CalcProperties(pvcf,number);
+
+
+	/*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
+    int16_t * x = g_malloc((2*number-1) * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
+    int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
+    uint32_t numb = number;
+    uint32_t num = number;
+    y[number - 1] = pvcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
+
+    /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
+    for (uint16_t x = 0; x < number - 1; x++)
+    {
+        y[x] = pvcf[num - 1];
+        num --;
+    }
+
+    num = 1;
+
+    for (uint16_t x = number; x < (2*number -1); x++)
+    {
+        y[x] = pvcf[num];
+        num++;
+    }
+
+    /*x[number-1]....,0,....,x[number-1]*/
+    for (uint16_t k = 0; k < (2*number -1); k++)
+    {
+      x[k] = -numb +1;
+      numb--;
+    }
+    printf("\n");
+
+    char slength[46];
+    sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
+
+    FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
+
+    if (pipe != NULL)
+    {
+
+        /*Настройка gnuplot*/
+        fprintf(pipe,  "set title font \"Helvetica,16\"\n");
+        fprintf(pipe,  "set xlabel font \"Helvetica,11\"\n");
+        fprintf(pipe,  "set ylabel font \"Helvetica,11\"\n");
+        fprintf(pipe, "set title \"График периодической взаимной корреляционной функции\" textcolor lt 8\n");
+        fprintf(pipe, slength);
+        fprintf(pipe, "set mxtics 5\n");/*5 дополнительных делений между х[i] и х[i+1]*/
+        fprintf(pipe, "set mytics 5\n");
+        fprintf(pipe, "set zeroaxis \n");
+        fprintf(pipe, "set border 3\n");/*Отображаем только x,y линии осей*/
+        fprintf(pipe, "set xtics nomirror\n");/*Убираем штрихи на вспомогательных осях*/
+        fprintf(pipe, "set ytics nomirror\n");
+        fprintf(pipe, "set grid\n");/*Включили сетку*/
+        fprintf(pipe, "set xlabel \"Значение сдвига, i\" textcolor  lt 8\n");
+        fprintf(pipe, "set ylabel \"Значение ПВКФ, y\" textcolor lt 8\n");
+        fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
+
+        for(uint32_t i =0; i < (2*number-1); i++)
+        {
+            fprintf(pipe, "%d\t%d\n", x[i], y[i]);
+        }
+
+        fprintf(pipe, "%s\n", "e");
+        pclose(pipe);/*Закрыли поток*/
+
+    }
+
+	free((void*)PV_Sequence1);
+	free((void*)PV_Sequence2);
+    free(pvcf);
+    free(x);
+    free(y);
+}
+
+/*#################################################
+                Колбэк по нажатию кнопки "АВКФ" */
+void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
+{
+    printf("AVCF clicked!\n");
+    gtk_widget_set_sensitive(app_wgts->w_avcf_button, FALSE);
+    int16_t* avcf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений АВКФ*/
+    printf("NUMBER: %d!\n",number);
+    AVCF((int8_t*)AV_Sequence1, (int8_t*)AV_Sequence2, number, avcf);/*Расчёт АВКФ*/
+	DisplayCorrelation(avcf, number, "VCF : ");/*Вывод АВКФ в консоль*/
+	CalcProperties(avcf,number);
+
+	int16_t * x = g_malloc((2*number-1) * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
+    int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
+    uint32_t numb = number;
+    uint32_t num = number;
+    y[number - 1] = avcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
+
+    /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
+    for (uint16_t x = 0; x < number - 1; x++)
+    {
+        y[x] = avcf[num - 1];
+        num --;
+    }
+
+    num = 1;
+
+    for (uint16_t x = number; x < (2*number -1); x++)
+    {
+        y[x] = avcf[num];
+        num++;
+    }
+
+    /*x[number-1]....,0,....,x[number-1]*/
+    for (uint16_t k = 0; k < (2*number -1); k++)
+    {
+      x[k] = -numb +1;
+      numb--;
+    }
+    printf("\n");
+
+    char slength[46];
+    sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
+
+    FILE *pipe = popen("gnuplot -persist", "w"); // pipe - дескриптор канала (открыли поток)
+
+    if (pipe != NULL)
+    {
+
+        /*Настройка gnuplot*/
+        fprintf(pipe,  "set title font \"Helvetica,16\"\n");
+        fprintf(pipe,  "set xlabel font \"Helvetica,11\"\n");
+        fprintf(pipe,  "set ylabel font \"Helvetica,11\"\n");
+        fprintf(pipe, "set title \"График апериодической взаимной корреляционной функции\" textcolor lt 8\n");
+        fprintf(pipe, slength);
+        fprintf(pipe, "set mxtics 5\n");/*5 дополнительных делений между х[i] и х[i+1]*/
+        fprintf(pipe, "set mytics 5\n");
+        fprintf(pipe, "set zeroaxis \n");
+        fprintf(pipe, "set border 3\n");/*Отображаем только x,y линии осей*/
+        fprintf(pipe, "set xtics nomirror\n");/*Убираем штрихи на вспомогательных осях*/
+        fprintf(pipe, "set ytics nomirror\n");
+        fprintf(pipe, "set grid\n");/*Включили сетку*/
+        fprintf(pipe, "set xlabel \"Значение сдвига, i\" textcolor  lt 8\n");
+        fprintf(pipe, "set ylabel \"Значение АВКФ, y\" textcolor lt 8\n");
+        fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
+
+        for(uint32_t i =0; i < (2*number-1); i++)
+        {
+            fprintf(pipe, "%d\t%d\n", x[i], y[i]);
+        }
+
+        fprintf(pipe, "%s\n", "e");
+        pclose(pipe);/*Закрыли поток*/
+
+    }
+
+	free((void*)AV_Sequence1);
+	free((void*)AV_Sequence2);
+    free(avcf);
+    free(x);
+    free(y);
 }
 
 

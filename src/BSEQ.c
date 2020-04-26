@@ -1,6 +1,6 @@
 #include "BSEQ.h"
-
-
+static void OneRightShift(uint8_t* sequence, uint32_t length);
+static bool NumberIsPrime(uint32_t p);
 
 /***************************ÔÓÍÊÖÈÈ, ÈÑÏÎËÜÇÓÅÌÛÅ ÄËß ÃÅÍÅÐÀÖÈÈ Â-ÏÎÑËÅÄÎÂÀÒÅËÜÍÎÑÒÅÉ****************************************/
 
@@ -158,15 +158,15 @@ void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
 	}
 }
 
-/*Ðàñ÷¸ò àâòîêîððåëÿöèîííîé ôóíêöèè ïîñëåäîâàòåëüíîñòè sequence äëèíû length*/
+/*РАСЧЁТ ПЕРИОДИЧЕСКОЙ АКФ*/
 void PACF(int8_t* sequence, uint32_t length, int16_t* CF)
 {
 
 	int16_t* r = (int16_t*)calloc(length, sizeof(int16_t));
 	int8_t* sequence1 = (int8_t*)calloc(length, sizeof(int8_t));
-	uint32_t tau = 0, f = 0, g = 0;
+	uint16_t tau = 0, f = 0, g = 0;
 	int16_t sum = 0;
-	CF[0] = 1;
+	CF[0] = length;
 
 	for (f = 0; f < length; f++)//çàìåíà íóëåé íà "-1"
 	{
@@ -195,7 +195,7 @@ void PACF(int8_t* sequence, uint32_t length, int16_t* CF)
 	free(r);
 }
 
-/*РАСЧЁТ ПЕРИОДИЧЕСКОЙ АКФ*/
+/*РАСЧЁТ АПЕРИОДИЧЕСКОЙ АКФ*/
 void AACF(int8_t* sequence, uint32_t length, int16_t* CF)
 {
 
@@ -232,6 +232,110 @@ void AACF(int8_t* sequence, uint32_t length, int16_t* CF)
 	free(r);
 }
 
+/*РАСЧЁТ ПЕРИОДИЧЕСКОЙ ВКФ*/
+void PVCF(int8_t* sequence1, int8_t* sequence2, uint32_t length, int16_t* CF)
+{
+
+	int16_t* r = (int16_t*)calloc(length, sizeof(int16_t));
+	int8_t* Sequence1 = (int8_t*)calloc(length, sizeof(int8_t));
+	int8_t* Sequence2 = (int8_t*)calloc(length, sizeof(int8_t));
+	uint16_t tau = 0, f = 0, g = 0;
+	int16_t sum = 0;
+
+	for (f = 0; f < length; f++)/*Замена нулей на "-1"*/
+	{
+		if (sequence1[f] == 0) sequence1[f] = -1;
+		else sequence1[f] = 1;
+	}
+	for (f = 0; f < length; f++)/*Замена нулей на "-1"*/
+	{
+		if (sequence2[f] == 0) sequence2[f] = -1;
+		else sequence2[f] = 1;
+	}
+
+	memcpy(Sequence1, sequence1, length);
+	memcpy(Sequence2, sequence2, length);
+
+	for(f = 0; f < length ; f++)
+		{
+			r[f] = Sequence1[f]*Sequence2[f];
+			sum += r[f];
+		}
+    CF[0]=sum;
+    sum = 0;
+
+	for (tau = 1; tau < length; tau++)
+	{
+		register int8_t c = Sequence2[length - 1];
+		for (g = length-1; g > 0; g--)
+		{
+			Sequence2[g] = Sequence2[g - 1];
+		}
+		Sequence2[0] = c;
+		for(f = 0 ; f < length ; f++)
+		{
+			r[f] = Sequence1[f]*Sequence2[f];
+			sum = sum + r[f];
+		}
+		CF[tau] = sum;
+		sum = 0;
+	}
+	free(Sequence1);
+	free(Sequence2);
+	free(r);
+}
+
+/*РАСЧЁТ АПЕРИОДИЧЕСКОЙ ВКФ*/
+void AVCF(int8_t* sequence1, int8_t* sequence2, uint32_t length, int16_t* CF)
+{
+
+	int16_t* r = (int16_t*)calloc(length, sizeof(int16_t));
+	int8_t* Sequence1 = (int8_t*)calloc(length, sizeof(int8_t));
+	int8_t* Sequence2 = (int8_t*)calloc(length, sizeof(int8_t));
+	uint16_t tau = 0, f = 0, g = 0;
+	int16_t sum = 0;
+
+	for (f = 0; f < length; f++)/*Замена нулей на "-1"*/
+	{
+		if (sequence1[f] == 0) sequence1[f] = -1;
+		else sequence1[f] = 1;
+	}
+	for (f = 0; f < length; f++)/*Замена нулей на "-1"*/
+	{
+		if (sequence2[f] == 0) sequence2[f] = -1;
+		else sequence2[f] = 1;
+	}
+
+	memcpy(Sequence1, sequence1, length);
+	memcpy(Sequence2, sequence2, length);
+
+	for(f = 0; f < length ; f++)
+		{
+			r[f] = Sequence1[f]*Sequence2[f];
+			sum += r[f];
+		}
+    CF[0]=sum;
+    sum = 0;
+
+
+	for (tau = 1; tau < length; tau++)
+	{
+		for (g = length-1; g > 0; g--)
+		{
+			Sequence2[g] = Sequence2[g - 1];
+		}
+		for(f = tau; f < length ; f++)
+		{
+			r[f] = Sequence1[f]*Sequence2[f];
+			sum += r[f];
+		}
+		CF[tau] = sum;
+		sum = 0;
+	}
+	free(Sequence1);
+	free(Sequence2);
+	free(r);
+}
 /*Ïðåîáðàçîâàíèå ìàññèâà ÷èñåë â ñòðîêó*/
 void IntToString(char* str,uint8_t* sequence,uint32_t length)
 {

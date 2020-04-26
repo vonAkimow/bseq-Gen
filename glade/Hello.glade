@@ -870,7 +870,7 @@
                     <property name="valign">start</property>
                     <property name="spacing">48</property>
                     <child>
-                      <object class="GtkButton" id="pvkf_button">
+                      <object class="GtkButton" id="pvcf_button">
                         <property name="label" translatable="yes">ПВКФ</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
@@ -878,6 +878,7 @@
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <signal name="clicked" handler="pvcf_button_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -905,7 +906,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="avkf_button">
+                      <object class="GtkButton" id="avcf_button">
                         <property name="label" translatable="yes">АВКФ</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
@@ -913,6 +914,7 @@
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <signal name="clicked" handler="avcf_button_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
