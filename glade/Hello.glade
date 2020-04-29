@@ -96,7 +96,7 @@
   </object>
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">bseq-Gen v0.1</property>
+    <property name="title" translatable="yes">bseqGen </property>
     <property name="window_position">center</property>
     <property name="gravity">center</property>
     <signal name="destroy" handler="main_destroy" swapped="no"/>
@@ -951,7 +951,7 @@
                     <property name="hscrollbar_policy">never</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTextView">
+                      <object class="GtkTextView" id="text_view">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="editable">False</property>
@@ -1027,39 +1027,6 @@
             <property name="label" translatable="yes">В - последовательности</property>
           </object>
           <packing>
-            <property name="tab_fill">False</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="Main_Box_p2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child type="tab">
-          <object class="GtkLabel" id="other_page">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Новые семейства</property>
-          </object>
-          <packing>
-            <property name="position">1</property>
             <property name="tab_fill">False</property>
           </packing>
         </child>

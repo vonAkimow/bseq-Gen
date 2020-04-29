@@ -40,7 +40,7 @@ typedef struct {
 
     /* Текстовый буфер*/
     GtkTextBuffer* w_output_buffer;
-
+    GtkTextView* w_text_view;
 
 } main_widgets;
 
@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
     widgets0->w_avcf_button = GTK_WIDGET(gtk_builder_get_object(builder,"avcf_button"));
 
     widgets0->w_output_buffer = GTK_TEXT_BUFFER(gtk_builder_get_object(builder,"output_buffer"));
+    widgets0->w_text_view = GTK_TEXT_VIEW(gtk_builder_get_object(builder,"text_view"));
 
     gtk_builder_connect_signals(builder, widgets0);
 
@@ -288,6 +289,8 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     char* BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
     char ones[13] = {0};
     char zeros[13] = {0};
+    GtkTextBuffer	*buffer;
+    GtkTextIter	end;
 
 
     g_print("GEEENERATE!!!\n");
@@ -326,6 +329,10 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -387,6 +394,10 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -451,6 +462,10 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -522,6 +537,10 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
+
         for(uint16_t z=0; z < number; z++)
         {
             PAKFSequence[z] = BaseSequence[z];
@@ -583,6 +602,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
     char*              BS = (char*)calloc(number+1,sizeof(char));/*Строка для вывода последовательности в текстовый буфер*/
     char ones[13] = {0};
     char zeros[13] = {0};
+    GtkTextBuffer	*buffer;
+    GtkTextIter	end;
 
         /* Сначала определяем выбранную радиокнопку */
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s1_button2)))  /* 1 СДВИГ */
@@ -626,6 +647,10 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
 
         for(uint16_t z = 0; z < number; z++)
         {
@@ -692,6 +717,10 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -770,6 +799,10 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
+
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -858,6 +891,10 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
+        gtk_text_buffer_get_end_iter(buffer, &end);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
+
         for(uint16_t z=0; z < number; z++)
         {
             AVKFSequence[z] = BaseSequence[z];
@@ -886,7 +923,14 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
                 Колбэк по нажатию кнопки очистки*/
 void clear_textbuffer_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
+    GtkTextIter	start, end;
+    GtkTextBuffer	*buffer;
+
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));
     g_print("CLEARED!\n");
+    gtk_text_buffer_get_bounds(buffer, &start, &end);
+	gtk_text_buffer_delete(buffer, &start, &end);
+    //app_wgts->w_output_buffer
 }
 
 
@@ -903,12 +947,13 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	CalcProperties(pacf,number);
 
     /*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
-    int16_t * x = g_malloc((2*number-1) * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-    int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПАКФ для построения графика*/
-    uint32_t numb = number;
-    uint32_t num = number;
-    y[number - 1] = number;/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
+    int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
+    //int16_t*  y = (int16_t*)calloc(number+1, sizeof(int16_t));/*массив значений ПАКФ для построения графика*/
+    //uint32_t numb = number;
+   // uint32_t num = number;
 
+    //y[number - 1] = number;/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
+#if 0
     /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
     for (uint16_t x = 0; x < number - 1; x++)
     {
@@ -923,12 +968,11 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         y[x] = pacf[num];
         num++;
     }
-
+#endif
     /*x[number-1]....,0,....,x[number-1]*/
-    for (uint16_t k = 0; k < (2*number -1); k++)
+    for (uint16_t k = 0; k < number; k++)
     {
-      x[k] = -numb +1;
-      numb--;
+      x[k] = k;
     }
     printf("\n");
 
@@ -957,9 +1001,9 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe, "set ylabel \"Значение ПАКФ, y\" textcolor lt 8\n");
         fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
 
-        for(uint32_t i =0; i < (2*number-1); i++)
+        for(uint32_t i =0; i < number; i++)
         {
-            fprintf(pipe, "%d\t%d\n", x[i], y[i]);
+            fprintf(pipe, "%d\t%d\n", x[i], pacf[i]);
         }
 
         fprintf(pipe, "%s\n", "e");
@@ -969,7 +1013,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
     free((void*)PA_Sequence);
     free(pacf);
-    free(y);
+    //free(y);
     free(x);
 }
 
@@ -987,13 +1031,13 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     DisplayCorrelation(aacf, number, "ACF : ");/*Вывод ПАКФ в консоль*/
 	CalcProperties(aacf,number);
 
-	/*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
-    int16_t * x = g_malloc((2*number-1) * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-    int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПАКФ для построения графика*/
-    uint32_t numb = number;
-    uint32_t num = number;
-    y[number - 1] = number;/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
-
+	/*ПОСТРОЕНИЕ ГРАФИКА AАКФ*/
+    int16_t * x = g_malloc(number* sizeof(int16_t));/*массив значений сдвигов для построения графика*/
+    //int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПАКФ для построения графика*/
+    //uint32_t numb = number;
+   // uint32_t num = number;
+  //  y[number - 1] = number;/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
+#if 0
     /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
     for (uint16_t x = 0; x < number - 1; x++)
     {
@@ -1008,12 +1052,11 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         y[x] = aacf[num];
         num++;
     }
-
+#endif
     /*x[number-1]....,0,....,x[number-1]*/
-    for (uint16_t k = 0; k < (2*number -1); k++)
+    for (uint16_t k = 0; k < number; k++)
     {
-      x[k] = -numb +1;
-      numb--;
+      x[k] = k;
     }
     printf("\n");
 
@@ -1044,9 +1087,9 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe, "set ylabel \"Значение ААКФ, y\" textcolor lt 8\n");
         fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
 
-        for(uint32_t i =0; i < (2*number-1); i++)
+        for(uint32_t i =0; i < number; i++)
         {
-            fprintf(pipe, "%d\t%d\n", x[i], y[i]);
+            fprintf(pipe, "%d\t%d\n", x[i], aacf[i]);
         }
 
         fprintf(pipe, "%s\n", "e");
@@ -1055,7 +1098,7 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     }
     free((void*)AA_Sequence);
     free(aacf);
-    free(y);
+    //free(y);
     free(x);
 }
 
@@ -1074,12 +1117,12 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 
 	/*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
-    int16_t * x = g_malloc((2*number-1) * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-    int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
-    uint32_t numb = number;
-    uint32_t num = number;
-    y[number - 1] = pvcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
-
+    int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
+    //int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
+   // uint32_t numb = number;
+   // uint32_t num = number;
+   // y[number - 1] = pvcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
+#if 0
     /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
     for (uint16_t x = 0; x < number - 1; x++)
     {
@@ -1094,12 +1137,12 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         y[x] = pvcf[num];
         num++;
     }
-
+#endif
     /*x[number-1]....,0,....,x[number-1]*/
-    for (uint16_t k = 0; k < (2*number -1); k++)
+    for (uint16_t k = 0; k < number; k++)
     {
-      x[k] = -numb +1;
-      numb--;
+      x[k] =k;
+
     }
     printf("\n");
 
@@ -1126,11 +1169,11 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe, "set grid\n");/*Включили сетку*/
         fprintf(pipe, "set xlabel \"Значение сдвига, i\" textcolor  lt 8\n");
         fprintf(pipe, "set ylabel \"Значение ПВКФ, y\" textcolor lt 8\n");
-        fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
+        fprintf(pipe, "plot '-' u 1:2 w l lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
 
-        for(uint32_t i =0; i < (2*number-1); i++)
+        for(uint32_t i =0; i < number; i++)
         {
-            fprintf(pipe, "%d\t%d\n", x[i], y[i]);
+            fprintf(pipe, "%d\t%d\n", x[i], pvcf[i]);
         }
 
         fprintf(pipe, "%s\n", "e");
@@ -1142,7 +1185,7 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	free((void*)PV_Sequence2);
     free(pvcf);
     free(x);
-    free(y);
+   // free(y);
 }
 
 /*#################################################
@@ -1157,12 +1200,12 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	DisplayCorrelation(avcf, number, "VCF : ");/*Вывод АВКФ в консоль*/
 	CalcProperties(avcf,number);
 
-	int16_t * x = g_malloc((2*number-1) * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-    int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
-    uint32_t numb = number;
-    uint32_t num = number;
-    y[number - 1] = avcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
-
+	int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
+   // int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
+    //uint32_t numb = number;
+    //uint32_t num = number;
+    //y[number - 1] = avcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
+#if 0
     /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
     for (uint16_t x = 0; x < number - 1; x++)
     {
@@ -1177,12 +1220,11 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         y[x] = avcf[num];
         num++;
     }
-
+#endif
     /*x[number-1]....,0,....,x[number-1]*/
-    for (uint16_t k = 0; k < (2*number -1); k++)
+    for (uint16_t k = 0; k < number; k++)
     {
-      x[k] = -numb +1;
-      numb--;
+      x[k] = k;
     }
     printf("\n");
 
@@ -1209,11 +1251,11 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe, "set grid\n");/*Включили сетку*/
         fprintf(pipe, "set xlabel \"Значение сдвига, i\" textcolor  lt 8\n");
         fprintf(pipe, "set ylabel \"Значение АВКФ, y\" textcolor lt 8\n");
-        fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
+        fprintf(pipe, "plot '-' u 1:2 w l lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
 
-        for(uint32_t i =0; i < (2*number-1); i++)
+        for(uint32_t i =0; i < number; i++)
         {
-            fprintf(pipe, "%d\t%d\n", x[i], y[i]);
+            fprintf(pipe, "%d\t%d\n", x[i], avcf[i]);
         }
 
         fprintf(pipe, "%s\n", "e");
@@ -1225,7 +1267,7 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	free((void*)AV_Sequence2);
     free(avcf);
     free(x);
-    free(y);
+    //free(y);
 }
 
 

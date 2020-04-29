@@ -7,37 +7,6 @@
 			<Cursor1 position="51" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/BSEQ.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="855" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="glade/Help.glade" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2320" topLine="30" />
-		</Cursor>
-	</File>
-	<File name="src/main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="45845" topLine="349" />
-		</Cursor>
-		<Folding>
-			<Collapse line="129" />
-			<Collapse line="154" />
-			<Collapse line="297" />
-			<Collapse line="353" />
-			<Collapse line="413" />
-			<Collapse line="479" />
-			<Collapse line="549" />
-			<Collapse line="575" />
-			<Collapse line="645" />
-			<Collapse line="712" />
-			<Collapse line="791" />
-			<Collapse line="887" />
-			<Collapse line="896" />
-			<Collapse line="979" />
-		</Folding>
-	</File>
 	<File name="src/BSEQ.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="6799" topLine="59" />
@@ -49,18 +18,37 @@
 			<Collapse line="65" />
 			<Collapse line="79" />
 			<Collapse line="89" />
-			<Collapse line="105" />
-			<Collapse line="114" />
-			<Collapse line="162" />
-			<Collapse line="199" />
-			<Collapse line="236" />
-			<Collapse line="289" />
-			<Collapse line="340" />
 		</Folding>
+	</File>
+	<File name="glade/Help.glade" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2320" topLine="30" />
+		</Cursor>
 	</File>
 	<File name="glade/Hello.glade" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="697" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="41889" topLine="167" />
+		</Cursor>
+		<Folding>
+			<Collapse line="129" />
+			<Collapse line="154" />
+			<Collapse line="281" />
+			<Collapse line="297" />
+			<Collapse line="353" />
+			<Collapse line="575" />
+			<Collapse line="588" />
+			<Collapse line="896" />
+			<Collapse line="979" />
+		</Folding>
+	</File>
+	<File name="src/BSEQ.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="855" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
