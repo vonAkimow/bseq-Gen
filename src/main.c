@@ -948,28 +948,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
     /*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
     int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-    //int16_t*  y = (int16_t*)calloc(number+1, sizeof(int16_t));/*массив значений ПАКФ для построения графика*/
-    //uint32_t numb = number;
-   // uint32_t num = number;
 
-    //y[number - 1] = number;/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
-#if 0
-    /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
-    for (uint16_t x = 0; x < number - 1; x++)
-    {
-        y[x] = pacf[num - 1];
-        num --;
-    }
-
-    num = 1;
-
-    for (uint16_t x = number; x < (2*number -1); x++)
-    {
-        y[x] = pacf[num];
-        num++;
-    }
-#endif
-    /*x[number-1]....,0,....,x[number-1]*/
     for (uint16_t k = 0; k < number; k++)
     {
       x[k] = k;
@@ -999,7 +978,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe, "set grid\n");/*Включили сетку*/
         fprintf(pipe, "set xlabel \"Значение сдвига, i\" textcolor  lt 8\n");
         fprintf(pipe, "set ylabel \"Значение ПАКФ, y\" textcolor lt 8\n");
-        fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
+        fprintf(pipe, "plot '-' u 1:2 w l lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
 
         for(uint32_t i =0; i < number; i++)
         {
@@ -1013,7 +992,6 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
     free((void*)PA_Sequence);
     free(pacf);
-    //free(y);
     free(x);
 }
 
@@ -1033,27 +1011,7 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 	/*ПОСТРОЕНИЕ ГРАФИКА AАКФ*/
     int16_t * x = g_malloc(number* sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-    //int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПАКФ для построения графика*/
-    //uint32_t numb = number;
-   // uint32_t num = number;
-  //  y[number - 1] = number;/*Средний элемент нового массива = 1 элементу массива aacf - будем строить график симметричный оси oY*/
-#if 0
-    /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
-    for (uint16_t x = 0; x < number - 1; x++)
-    {
-        y[x] = aacf[num - 1];
-        num --;
-    }
 
-    num = 1;
-
-    for (uint16_t x = number; x < (2*number -1); x++)
-    {
-        y[x] = aacf[num];
-        num++;
-    }
-#endif
-    /*x[number-1]....,0,....,x[number-1]*/
     for (uint16_t k = 0; k < number; k++)
     {
       x[k] = k;
@@ -1085,7 +1043,7 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         fprintf(pipe, "set grid\n");/*Включили сетку*/
         fprintf(pipe, "set xlabel \"Значение сдвига, i\" textcolor  lt 8\n");
         fprintf(pipe, "set ylabel \"Значение ААКФ, y\" textcolor lt 8\n");
-        fprintf(pipe, "plot '-' u 1:2 w lp lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
+        fprintf(pipe, "plot '-' u 1:2 w l lt 7 lw 1 title 'y[i]'\n");/*Строим график по точкам, соединяя их линией: (x[i]\ty[i]\n), толщина линии - lw,lt - цвет */
 
         for(uint32_t i =0; i < number; i++)
         {
@@ -1098,7 +1056,6 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     }
     free((void*)AA_Sequence);
     free(aacf);
-    //free(y);
     free(x);
 }
 
@@ -1118,27 +1075,7 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 	/*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
     int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-    //int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
-   // uint32_t numb = number;
-   // uint32_t num = number;
-   // y[number - 1] = pvcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
-#if 0
-    /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
-    for (uint16_t x = 0; x < number - 1; x++)
-    {
-        y[x] = pvcf[num - 1];
-        num --;
-    }
 
-    num = 1;
-
-    for (uint16_t x = number; x < (2*number -1); x++)
-    {
-        y[x] = pvcf[num];
-        num++;
-    }
-#endif
-    /*x[number-1]....,0,....,x[number-1]*/
     for (uint16_t k = 0; k < number; k++)
     {
       x[k] =k;
@@ -1185,7 +1122,6 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	free((void*)PV_Sequence2);
     free(pvcf);
     free(x);
-   // free(y);
 }
 
 /*#################################################
@@ -1201,27 +1137,7 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	CalcProperties(avcf,number);
 
 	int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
-   // int16_t*  y = (int16_t*)calloc(2*number-1, sizeof(int16_t));/*массив значений ПВКФ для построения графика*/
-    //uint32_t numb = number;
-    //uint32_t num = number;
-    //y[number - 1] = avcf[0];/*Средний элемент нового массива = 1 элементу массива pvcf - будем строить график симметричный оси oY*/
-#if 0
-    /*y[0],y[1],..y[number - 1],...,y[2*number-1]*/
-    for (uint16_t x = 0; x < number - 1; x++)
-    {
-        y[x] = avcf[num - 1];
-        num --;
-    }
 
-    num = 1;
-
-    for (uint16_t x = number; x < (2*number -1); x++)
-    {
-        y[x] = avcf[num];
-        num++;
-    }
-#endif
-    /*x[number-1]....,0,....,x[number-1]*/
     for (uint16_t k = 0; k < number; k++)
     {
       x[k] = k;
@@ -1267,7 +1183,7 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	free((void*)AV_Sequence2);
     free(avcf);
     free(x);
-    //free(y);
+
 }
 
 

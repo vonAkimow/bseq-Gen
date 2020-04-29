@@ -1,5 +1,6 @@
-#ifndef BSEQ_H
-#define BSEQ_H
+#ifndef CALC_H
+#define CALC_H
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,10 +9,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-/*#################Прототипы функций#################*/
-void MakePrimeSequence(uint8_t* sequence, uint32_t number);
-void DisplaySequence(uint8_t* sequence, uint32_t length, char* name);
-void DisplayCorrelation(int16_t* CF, uint32_t length, char* name);
+#include "bgeneration.h"
+
+/*FUNCTION PROTOTYPES*/
+void OneRightShift(uint8_t* sequence, uint32_t length);
+bool NumberIsPrime(uint32_t p);
 void RightShifts(uint8_t* sequence, uint32_t length, uint32_t nshifts);
 void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length);
 void PACF(int8_t* sequence, uint32_t length, int16_t* CF);
@@ -23,9 +25,11 @@ uint32_t CountI(uint8_t* sequence, uint32_t length, int8_t value);
 uint32_t CountD(int16_t* sequence, uint32_t length, int16_t value);
 void CalcProperties(int16_t* sequence, uint32_t length);
 void IntToString(char* str,uint8_t* sequence,uint32_t length);
-/*#################################################*/
 
 
 
-#endif // BSEQ_H
 
+
+
+
+#endif

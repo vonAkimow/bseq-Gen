@@ -2882,12 +2882,13 @@
 
 1556615334 /usr/include/gtk-3.0/gtk/gtk-autocleanups.h
 
-1588187526 source:/home/pi/CProjects/BSequence/src/main.c
+1588188270 source:/home/pi/CProjects/BSequence/src/main.c
 	"main.h"
 
-1587745318 /home/pi/CProjects/BSequence/src/main.h
+1588188972 /home/pi/CProjects/BSequence/src/main.h
 	<gtk/gtk.h>
-	"BSEQ.h"
+	"bgeneration.h"
+	"calculations.h"
 
 1587903518 source:/home/pi/CProjects/BSequence/src/BSEQ.c
 	"BSEQ.h"
@@ -2899,4 +2900,28 @@
 	<math.h>
 	<stdbool.h>
 	<string.h>
+
+1588189087 /home/pi/CProjects/BSequence/src/bgeneration.h
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<math.h>
+	<stdbool.h>
+	<string.h>
+	"calculations.h"
+
+1588189074 /home/pi/CProjects/BSequence/src/calculations.h
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<math.h>
+	<stdbool.h>
+	<string.h>
+	"bgeneration.h"
+
+1588188860 source:/home/pi/CProjects/BSequence/src/bgeneration.c
+	"bgeneration.h"
+
+1588189000 source:/home/pi/CProjects/BSequence/src/calculations.c
+	"calculations.h"
 
