@@ -158,22 +158,10 @@ void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     /* Сначала определяем выбранную радиокнопку */
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s1_button)))  /* 1 СДВИГ */
     {
-        g_print("SHIFTS1!\n");
-
-        /* Считываем значения соответствующих спин кнопок */
-        char len[5] = {0};
-        char sht1[5] = {0};
 
         /* Прочитали значения кнопок  w_prime_sbtn и w_s1_sbtn1*/
         number = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
-
-        g_snprintf(len,sizeof(len),"%d\n",number);
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-
-        g_print(len);
-        g_print(sht1);
-
 
         flag = 1;
         gtk_widget_set_sensitive(app_wgts->w_generate_button, TRUE);
@@ -182,24 +170,9 @@ void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s2_button)))  /* 2 СДВИГА */
     {
 
-        g_print("SHIFTS2!\n");
-
-        char len[5] = {0};
-        char sht1[5] = {0};
-        char sht2[5] = {0};
-
         number= gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
         shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn1));
-
-        g_snprintf(len,sizeof(len),"%d\n",number);
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
-
-        g_print(len);
-        g_print(sht1);
-        g_print(sht2);
-
 
         flag = 2;
         gtk_widget_set_sensitive(app_wgts->w_generate_button, TRUE);
@@ -208,29 +181,10 @@ void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s3_button)))  /* 3 СДВИГА */
     {
 
-        g_print("SHIFTS3!\n");
-
-        char len[5] = {0};
-        char sht1[5] = {0};
-        char sht2[5] = {0};
-        char sht3[5] = {0};
-
-
         number = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
         shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn1));
         shift3 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s3_sbtn1));
-
-        g_snprintf(len,sizeof(len),"%d\n",number);
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
-        g_snprintf(sht3,sizeof(sht3),"%d\n",shift3);
-
-        g_print(len);
-        g_print(sht1);
-        g_print(sht2);
-        g_print(sht3);
-
 
         flag = 3;
         gtk_widget_set_sensitive(app_wgts->w_generate_button, TRUE);
@@ -240,32 +194,11 @@ void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s4_button)))  /* 4 СДВИГА */
     {
 
-        g_print("SHIFTS4!\n");
-
-        char len[5] = {0};
-        char sht1[5] = {0};
-        char sht2[5] = {0};
-        char sht3[5] = {0};
-        char sht4[5] = {0};
-
-
         number = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_prime_sbtn));
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn1));
         shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn1));
         shift3 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s3_sbtn1));
         shift4 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s4_sbtn1));
-
-        g_snprintf(len,sizeof(len),"%d\n",number);
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
-        g_snprintf(sht3,sizeof(sht3),"%d\n",shift3);
-        g_snprintf(sht4,sizeof(sht4),"%d\n",shift4);
-
-        g_print(len);
-        g_print(sht1);
-        g_print(sht2);
-        g_print(sht3);
-        g_print(sht4);
 
         flag = 4;
         gtk_widget_set_sensitive(app_wgts->w_generate_button, TRUE);
@@ -274,7 +207,7 @@ void apply_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     gtk_widget_set_sensitive(app_wgts->w_aacf_button, FALSE); /*Кнопки блока статистической обработки становятся нечувствительными*/
     gtk_widget_set_sensitive(app_wgts->w_pacf_button, FALSE);
     gtk_widget_set_sensitive(app_wgts->w_generate_button1, FALSE);
-    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Настройки применены, теперь можно сгенерировать последовательность \n",-1);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Настройки применены, теперь можно сгенерировать последовательность \n",-1);
 }
 
 /*#################################################
@@ -293,7 +226,6 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     GtkTextIter	end;
 
 
-    g_print("GEEENERATE!!!\n");
     gtk_widget_set_sensitive(app_wgts->w_generate_button, FALSE);
 
 
@@ -304,21 +236,16 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
-        DisplaySequence(BaseSequence,number,"Prime sequence b1(k): ");
 
         RightShifts(Sequence1, number, shift1);//S1>>shift1
 
         SeqPSeq(BaseSequence, Sequence1, number);//S1+S2
-        printf("\n");
-        printf("Length: %i \n", number);
-        printf("Shifters: %d\n",flag);
-        DisplaySequence(BaseSequence, number, "B-Sequence1 : ");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(1): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> B - последовательность(1): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -326,7 +253,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %d, ",count1);
         sprintf(zeros, "<0> - %d.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -334,7 +261,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_get_end_iter(buffer, &end);
         gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
 
-        for(uint16_t z=0; z < number; z++)
+        for(uint16_t z = 0; z < number; z++)
         {
             PAKFSequence[z] = BaseSequence[z];
             AAKFSequence[z] = BaseSequence[z];
@@ -352,8 +279,6 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         free(BS);
         free(BaseSequence);
 
-
-        g_print("\nflag1!\n");
         flag = 0;
     }
 
@@ -366,24 +291,18 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
         MakePrimeSequence(Sequence2, number);
-        DisplaySequence(BaseSequence,number,"Prime sequence b2(k): ");
-        g_print("\nflag2!\n");
 
         RightShifts(Sequence1, number, shift1);//S1>>shift1
         RightShifts(Sequence2, number, shift2);//S2>>shift2
 
         SeqPSeq(Sequence1, Sequence2, number);//S1+S2
         SeqPSeq(BaseSequence, Sequence1, number);//S1+S2+b(k)
-        printf("\n");
-        printf("Length: %i \n", number);
-        printf("Shifters: %d\n",flag);
-        DisplaySequence(BaseSequence, number, "B-Sequence2 : ");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(1): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> B - последовательность(1): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -391,7 +310,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %u, ",count1);
         sprintf(zeros, "<0> - %u.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -417,7 +336,6 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         free(BS);
         free(BaseSequence);
 
-        g_print("\nflag2!\n");
         flag = 0;
     }
 
@@ -432,26 +350,20 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         MakePrimeSequence(Sequence1, number);
         MakePrimeSequence(Sequence2, number);
         MakePrimeSequence(Sequence3, number);
-        DisplaySequence(BaseSequence,number,"Prime sequence b3(k): ");
 
         RightShifts(Sequence1, number, shift1);//S1>>shift1
         RightShifts(Sequence2, number, shift2);//S2>>shift2
         RightShifts(Sequence3, number, shift3);//S3>>shift3
-        printf("\n");
 
         SeqPSeq(Sequence1, Sequence2, number);//S1+S2
         SeqPSeq(Sequence3, Sequence1, number); //S1+S2+S3
         SeqPSeq(BaseSequence, Sequence3, number);//S1+S2+S3+b(k)
-        printf("\n");
-        printf("Length: %i \n", number);
-        printf("Shifters: %d\n",flag);
-        DisplaySequence(BaseSequence, number, "B-Sequence3 : ");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(1): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> B - последовательность(1): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -459,7 +371,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %u, ",count1);
         sprintf(zeros, "<0> - %u.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -486,7 +398,6 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         free(BS);
         free(BaseSequence);
 
-        g_print("\nflag3!\n");
         flag = 0;
     }
 
@@ -504,7 +415,6 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         MakePrimeSequence(Sequence2, number);//S2
         MakePrimeSequence(Sequence3, number);//S3
         MakePrimeSequence(Sequence4, number);//S4
-        DisplaySequence(BaseSequence,number,"Prime sequence b4(k): ");
 
         RightShifts(Sequence1, number, shift1); //S1>>shift1
         RightShifts(Sequence2, number, shift2); //S2>>shift2
@@ -515,17 +425,12 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         SeqPSeq(Sequence3, Sequence1, number); //S1+S2+S3
         SeqPSeq(Sequence4, Sequence3, number); //S1+S2+S3+S4
         SeqPSeq(BaseSequence, Sequence4, number); //S1+S2+S3+S4+b(k)
-        printf("\n");
-        printf("Length: %i \n", number);
-        printf("Shifters: %d\n",flag);
-        DisplaySequence(BaseSequence, number, "B-Sequence4 :\n");
-        printf("\n");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n B - последовательность(1): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> B - последовательность(1): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -533,7 +438,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %u, ",count1);
         sprintf(zeros, "<0> - %u.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -562,13 +467,12 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
         free(BS);
         free(BaseSequence);
 
-        g_print("\nfla32g4!\n");
         flag = 0;
     }
     else
     {
         g_print("ERROR!!!");
-        flag = 0;
+        flag = 0;        g_print("\nfla32g4!\n");
     }
 
     gtk_widget_set_sensitive(app_wgts->w_aacf_button, TRUE);/*Кнопки блока статистической обработки становятся чувствительными*/
@@ -594,8 +498,7 @@ void generate_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
     gtk_widget_set_sensitive(app_wgts->w_generate_button1, FALSE);
-    printf("NUMBERG1:%d\n",number);
-    printf("GENERATE1!\n");
+
     uint8_t* BaseSequence = (uint8_t*)calloc(number, sizeof(uint8_t)); /*выделили память для динамического массива (=последовательность)*/
     uint8_t* PVKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
     uint8_t* AVKFSequence = (uint8_t*)calloc(number, sizeof(uint8_t));
@@ -608,35 +511,25 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         /* Сначала определяем выбранную радиокнопку */
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s1_button2)))  /* 1 СДВИГ */
     {
-        g_print("SHIFTS1!\n");
 
         /* Считываем значения соответствующих спин кнопок */
-        char sht1[5] = {0};
 
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn2));
-
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-
-        g_print(sht1);
 
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
 
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
-        DisplaySequence(BaseSequence,number,"Prime sequence b1(k): ");
 
         RightShifts(Sequence1, number, shift1);//S1>>shift1
 
         SeqPSeq(BaseSequence, Sequence1, number);//S1+S2
-        printf("\n");
-        printf("Length: %i \n", number);
-        DisplaySequence(BaseSequence, number, "B-Sequence1 : ");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n B - последовательность(2): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n> B - последовательность(2): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -644,7 +537,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %d, ",count1);
         sprintf(zeros, "<0> - %d.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -671,19 +564,8 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s2_button2)))  /* 2 СДВИГА */
     {
 
-        g_print("SHIFTS2!\n");
-
-        char sht1[5] = {0};
-        char sht2[5] = {0};
-
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn2));
         shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn2));
-
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
-
-        g_print(sht1);
-        g_print(sht2);
 
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
@@ -691,23 +573,18 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         MakePrimeSequence(BaseSequence, number);
         MakePrimeSequence(Sequence1, number);
         MakePrimeSequence(Sequence2, number);
-        DisplaySequence(BaseSequence,number,"Prime sequence b2(k): ");
-        g_print("\nflag2!\n");
 
         RightShifts(Sequence1, number, shift1);//S1>>shift1
         RightShifts(Sequence2, number, shift2);//S2>>shift2
 
         SeqPSeq(Sequence1, Sequence2, number);//S1+S2
         SeqPSeq(BaseSequence, Sequence1, number);//S1+S2+b(k)
-        printf("\n");
-        printf("Length: %i \n", number);
-        DisplaySequence(BaseSequence, number, "B-Sequence2 : ");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n B - последовательность(2): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n> B - последовательность(2): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -715,7 +592,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %u, ",count1);
         sprintf(zeros, "<0> - %u.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -741,24 +618,9 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s3_button2)))  /* 3 СДВИГА */
     {
-
-        g_print("SHIFTS3!\n");
-
-        char sht1[5] = {0};
-        char sht2[5] = {0};
-        char sht3[5] = {0};
-
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn2));
         shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn2));
         shift3 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s3_sbtn2));
-
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
-        g_snprintf(sht3,sizeof(sht3),"%d\n",shift3);
-
-        g_print(sht1);
-        g_print(sht2);
-        g_print(sht3);
 
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
@@ -768,28 +630,20 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         MakePrimeSequence(Sequence1, number);
         MakePrimeSequence(Sequence2, number);
         MakePrimeSequence(Sequence3, number);
-        DisplaySequence(BaseSequence,number,"Prime sequence b3(k): ");
-
-
 
         RightShifts(Sequence1, number, shift1);//S1>>shift1
         RightShifts(Sequence2, number, shift2);//S2>>shift2
         RightShifts(Sequence3, number, shift3);//S3>>shift3
-        printf("\n");
 
         SeqPSeq(Sequence1, Sequence2, number);//S1+S2
         SeqPSeq(Sequence3, Sequence1, number); //S1+S2+S3
         SeqPSeq(BaseSequence, Sequence3, number);//S1+S2+S3+b(k)
-        printf("\n");
-        printf("Length: %i \n", number);
-        printf("Shifters: %d\n",flag);
-        DisplaySequence(BaseSequence, number, "B-Sequence3 : ");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n B - последовательность(2): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n> B - последовательность(2): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -797,7 +651,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %u, ",count1);
         sprintf(zeros, "<0> - %u.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -825,28 +679,10 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(app_wgts->w_s4_button2)))  /* 4 СДВИГА */
     {
 
-        g_print("SHIFTS4!\n");
-
-        char sht1[5] = {0};
-        char sht2[5] = {0};
-        char sht3[5] = {0};
-        char sht4[5] = {0};
-
-
         shift1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s1_sbtn2));
         shift2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s2_sbtn2));
         shift3 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s3_sbtn2));
         shift4 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(app_wgts->w_s4_sbtn2));
-
-        g_snprintf(sht1,sizeof(sht1),"%d\n",shift1);
-        g_snprintf(sht2,sizeof(sht2),"%d\n",shift2);
-        g_snprintf(sht3,sizeof(sht3),"%d\n",shift3);
-        g_snprintf(sht4,sizeof(sht4),"%d\n",shift4);
-
-        g_print(sht1);
-        g_print(sht2);
-        g_print(sht3);
-        g_print(sht4);
 
         uint8_t* Sequence1 = (uint8_t*)calloc(number, sizeof(uint8_t));
         uint8_t* Sequence2 = (uint8_t*)calloc(number, sizeof(uint8_t));
@@ -859,7 +695,6 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         MakePrimeSequence(Sequence2, number);//S2
         MakePrimeSequence(Sequence3, number);//S3
         MakePrimeSequence(Sequence4, number);//S4
-        DisplaySequence(BaseSequence,number,"Prime sequence b4(k): ");
 
         RightShifts(Sequence1, number, shift1); //S1>>shift1
         RightShifts(Sequence2, number, shift2); //S2>>shift2
@@ -870,17 +705,12 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         SeqPSeq(Sequence3, Sequence1, number); //S1+S2+S3
         SeqPSeq(Sequence4, Sequence3, number); //S1+S2+S3+S4
         SeqPSeq(BaseSequence, Sequence4, number); //S1+S2+S3+S4+b(k)
-        printf("\n");
-        printf("Length: %i \n", number);
-        printf("Shifters: %d\n",flag);
-        DisplaySequence(BaseSequence, number, "B-Sequence4 :\n");
-        printf("\n");
         CountI(BaseSequence, number, 1);
         CountI(BaseSequence, number, 0);
 
         IntToString(BS,BaseSequence,number);/*Преобразование массива чисел в строку*/
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n B - последовательность(2): \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n\n> B - последовательность(2): \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,BS,-1);
 
         uint16_t count1 = CountI(BaseSequence, number, 1);
@@ -888,7 +718,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         sprintf(ones, "<1> - %u, ",count1);
         sprintf(zeros, "<0> - %u.",number - count1);
 
-        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n Сбалансированность : \n",-1);
+        gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Сбалансированность : \n",-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
@@ -950,9 +780,7 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     char MaxP[7] = {0};
     char AvrP[7] = {0};
 
-    printf("NUMBER: %d!\n",number);
     PACF((int8_t*)PA_Sequence, number, pacf);/*Расчёт ПАКФ*/
-	DisplayCorrelation(pacf, number, "ACF : ");/*Вывод ПАКФ в консоль*/
 
     for (uint16_t k = 1; k < number; ++k)
 	{
@@ -963,11 +791,9 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	}
 	nUmax = CountD(pacf, number, Umax);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************ПАКФ************ ",-1);
-	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
     sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
-
 
 	for (uint16_t s  = 1; s < number; ++s)
 	{
@@ -977,12 +803,9 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 		}
 	}
 	nUmin = CountD(pacf, number, Umin);
-	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
     sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
-
-	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
 
     double        Mu = ExpVal(pacf,number,false);
     double     absMu = ExpVal(pacf,number,true);
@@ -995,12 +818,9 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     sprintf(AbsExp, " %.3f",absMu);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
 
-    printf("\nMu = %.3f\n", Mu);
-    printf("\nabsMu = %.3f\n", absMu);
     double  absSigma = SigmaVal(pacf,number,absMu);
     double     Sigma = SigmaVal(pacf,number,Mu);
-    printf("\nabsSigma = %.3f\n", absSigma);
-    printf("\n Sigma = %.3f\n", Sigma);
+
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
     sprintf(Sigm, " %.3f",Sigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
@@ -1008,9 +828,6 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
     sprintf(AbsSigm, " %.3f",absSigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
-
-    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
-	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
 
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
     sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
@@ -1027,7 +844,6 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     {
       x[k] = k;
     }
-    printf("\n");
 
     char slength[46];
     sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
@@ -1074,7 +890,6 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
 void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
-    printf("AAKF PRESSED!\n");
     gtk_widget_set_sensitive(app_wgts->w_aacf_button, FALSE);
     int16_t* aacf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений ААКФ*/
     int16_t Umin = 0, Umax = 0, nUmin = 0, nUmax = 0;
@@ -1087,10 +902,7 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     char MaxP[7] = {0};
     char AvrP[7] = {0};
 
-    printf("NUMBER: %d!\n",number);
     AACF((int8_t*)AA_Sequence, number, aacf);/*Расчёт ПАКФ*/
-    printf("aacf[0] = %d, aacf[1] = %d, aacf[2] = %d \n",aacf[0],aacf[1],aacf[2]);
-    DisplayCorrelation(aacf, number, "ACF : ");/*Вывод ПАКФ в консоль*/
 
     for (uint16_t k = 1; k < number; ++k)
 	{
@@ -1102,7 +914,6 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	nUmax = CountD(aacf, number, Umax);
 
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************ААКФ************ ",-1);
-	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
     sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
@@ -1116,12 +927,9 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 		}
 	}
 	nUmin = CountD(aacf, number, Umin);
-	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
     sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
-
-	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
 
     double        Mu = ExpVal(aacf,number,false);
     double     absMu = ExpVal(aacf,number,true);
@@ -1134,12 +942,9 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     sprintf(AbsExp, " %.3f",absMu);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
 
-    printf("\nMu = %.3f\n", Mu);
-    printf("\nabsMu = %.3f\n", absMu);
     double  absSigma = SigmaVal(aacf,number,absMu);
     double     Sigma = SigmaVal(aacf,number,Mu);
-    printf("\nabsSigma = %.3f\n", absSigma);
-    printf("\n Sigma = %.3f\n", Sigma);
+
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
     sprintf(Sigm, " %.3f",Sigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
@@ -1147,9 +952,6 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
     sprintf(AbsSigm, " %.3f",absSigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
-
-    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
-	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
 
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
     sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
@@ -1166,8 +968,6 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     {
       x[k] = k;
     }
-    printf("\n");
-
 
      char slength[46];
      sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
@@ -1214,7 +1014,6 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
                 Колбэк по нажатию кнопки "ПВКФ" */
 void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
-    printf("PVCF clicked!\n");
     gtk_widget_set_sensitive(app_wgts->w_pvcf_button, FALSE);
 
     int16_t* pvcf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений ПВКФ*/
@@ -1228,9 +1027,7 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     char MaxP[7] = {0};
     char AvrP[7] = {0};
 
-    printf("NUMBER: %d!\n",number);
     PVCF((int8_t*)PV_Sequence1, (int8_t*)PV_Sequence2, number, pvcf);/*Расчёт ПВКФ*/
-	DisplayCorrelation(pvcf, number, "VCF : ");/*Вывод ПВКФ в консоль*/
 
 	for (uint16_t k = 1; k < number; ++k)
 	{
@@ -1242,7 +1039,6 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	nUmax = CountD(pvcf, number, Umax);
 
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************ПВКФ************ ",-1);
-	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
     sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
@@ -1256,12 +1052,9 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 		}
 	}
 	nUmin = CountD(pvcf, number, Umin);
-	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
     sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
-
-	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
 
     double        Mu = ExpVal(pvcf,number,false);
     double     absMu = ExpVal(pvcf,number,true);
@@ -1274,12 +1067,9 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     sprintf(AbsExp, " %.3f",absMu);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
 
-    printf("\nMu = %.3f\n", Mu);
-    printf("\nabsMu = %.3f\n", absMu);
     double  absSigma = SigmaVal(pvcf,number,absMu);
     double     Sigma = SigmaVal(pvcf,number,Mu);
-    printf("\nabsSigma = %.3f\n", absSigma);
-    printf("\n Sigma = %.3f\n", Sigma);
+
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
     sprintf(Sigm, " %.3f",Sigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
@@ -1287,9 +1077,6 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
     sprintf(AbsSigm, " %.3f",absSigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
-
-    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
-	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
 
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
     sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
@@ -1308,7 +1095,6 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
       x[k] =k;
 
     }
-    printf("\n");
 
     char slength[46];
     sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
@@ -1355,7 +1141,6 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
                 Колбэк по нажатию кнопки "АВКФ" */
 void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
-    printf("AVCF clicked!\n");
     gtk_widget_set_sensitive(app_wgts->w_avcf_button, FALSE);
     int16_t* avcf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений АВКФ*/
     int16_t Umin = 0, Umax = 0, nUmin = 0, nUmax = 0;
@@ -1368,9 +1153,7 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     char MaxP[7] = {0};
     char AvrP[7] = {0};
 
-    printf("NUMBER: %d!\n",number);
     AVCF((int8_t*)AV_Sequence1, (int8_t*)AV_Sequence2, number, avcf);/*Расчёт АВКФ*/
-	DisplayCorrelation(avcf, number, "VCF : ");/*Вывод АВКФ в консоль*/
 
     for (uint16_t k = 1; k < number; ++k)
 	{
@@ -1381,12 +1164,10 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 	}
 	nUmax = CountD(avcf, number, Umax);
 
-	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************АВКФ************ ",-1);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
     sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
-
 
 	for (uint16_t s  = 1; s < number; ++s)
 	{
@@ -1396,12 +1177,9 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 		}
 	}
 	nUmin = CountD(avcf, number, Umin);
-	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
 	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
     sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
-
-	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
 
     double        Mu = ExpVal(avcf,number,false);
     double     absMu = ExpVal(avcf,number,true);
@@ -1414,12 +1192,9 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     sprintf(AbsExp, " %.3f",absMu);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
 
-    printf("\nMu = %.3f\n", Mu);
-    printf("\nabsMu = %.3f\n", absMu);
     double  absSigma = SigmaVal(avcf,number,absMu);
     double     Sigma = SigmaVal(avcf,number,Mu);
-    printf("\nabsSigma = %.3f\n", absSigma);
-    printf("\n Sigma = %.3f\n", Sigma);
+
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
     sprintf(Sigm, " %.3f",Sigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
@@ -1427,9 +1202,6 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
     sprintf(AbsSigm, " %.3f",absSigma);
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
-
-    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
-	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
 
     gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
     sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
@@ -1446,7 +1218,6 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     {
       x[k] = k;
     }
-    printf("\n");
 
     char slength[46];
     sprintf(slength, "set key title \"Длина: %d\" textcolor lt 8\n",number);
