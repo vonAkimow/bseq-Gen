@@ -1,4 +1,7 @@
 #include "calculations.h"
+inline uint16_t MaxValue(int16_t value1, int16_t value2);
+inline uint16_t MaxPeakLevel(int16_t val1,int16_t val2,uint32_t length);
+inline double AveragePeakLevel(double ExpVal, uint32_t length);
 
 /*Ñóììà ïî ìîäóëþ 2, ðåçóëüòàò â basesequence*/
 void SeqPSeq(uint8_t* baseSequence, uint8_t* sequence, uint32_t length)
@@ -216,9 +219,9 @@ inline double AveragePeakLevel(double ExpVal, uint32_t length)
     return h;
 
 }
-inline double MaxPeakLevel(int16_t val1,int16_t val2,uint32_t length)
+inline uint16_t MaxPeakLevel(int16_t val1,int16_t val2,uint32_t length)
 {
-    double h = 0;
+    uint16_t h = 0;
     uint16_t Max = MaxValue(val1,val2);
 
     h = 100*Max/length;
@@ -278,7 +281,7 @@ void CalcProperties(int16_t* CF, uint32_t length)
     printf("\nabsSigma = %.3f\n", absSigma);
     printf("\n Sigma = %.3f\n", Sigma);
 
-    printf("\nMaxPeakPercentage: %.2f\n",MaxPeakLevel(Umin,Umax,length));
+    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,length));
 	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,length));
 
 }

@@ -2882,7 +2882,7 @@
 
 1556615334 /usr/include/gtk-3.0/gtk/gtk-autocleanups.h
 
-1588191027 source:/home/pi/CProjects/BSequence/src/main.c
+1589394742 source:/home/pi/CProjects/BSequence/src/main.c
 	"main.h"
 
 1588188972 /home/pi/CProjects/BSequence/src/main.h
@@ -2910,7 +2910,7 @@
 	<string.h>
 	"calculations.h"
 
-1589385278 /home/pi/CProjects/BSequence/src/calculations.h
+1589391697 /home/pi/CProjects/BSequence/src/calculations.h
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
@@ -2922,6 +2922,6 @@
 1588188860 source:/home/pi/CProjects/BSequence/src/bgeneration.c
 	"bgeneration.h"
 
-1589384142 source:/home/pi/CProjects/BSequence/src/calculations.c
+1589394759 source:/home/pi/CProjects/BSequence/src/calculations.c
 	"calculations.h"
 

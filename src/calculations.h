@@ -29,7 +29,7 @@ double ExpVal(int16_t* CF, uint32_t length,bool absUsage);
 double SigmaVal(int16_t* CF, uint32_t length,double ExpVal);
 
 extern inline uint16_t MaxValue(int16_t value1, int16_t value2);
-extern inline double MaxPeakLevel(int16_t val1,int16_t val2,uint32_t length);
+extern inline uint16_t MaxPeakLevel(int16_t val1,int16_t val2,uint32_t length);
 extern inline double AveragePeakLevel(double ExpVal, uint32_t length);
 
 

@@ -940,10 +940,85 @@ void pacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
     gtk_widget_set_sensitive(app_wgts->w_pacf_button, FALSE);
     int16_t* pacf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений ПАКФ*/
+    int16_t Umin = 0, Umax = 0, nUmin = 0, nUmax = 0;
+    char Exp[7] = {0};
+    char AbsExp[7] = {0};
+    char Umi[20] = {0};
+    char Uma[20] = {0};
+    char Sigm[7] = {0};
+    char AbsSigm[7] = {0};
+    char MaxP[7] = {0};
+    char AvrP[7] = {0};
+
     printf("NUMBER: %d!\n",number);
     PACF((int8_t*)PA_Sequence, number, pacf);/*Расчёт ПАКФ*/
 	DisplayCorrelation(pacf, number, "ACF : ");/*Вывод ПАКФ в консоль*/
-	CalcProperties(pacf,number);
+
+    for (uint16_t k = 1; k < number; ++k)
+	{
+		if (pacf[k] > Umax)
+		{
+			Umax = pacf[k];
+		}
+	}
+	nUmax = CountD(pacf, number, Umax);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************ПАКФ************ ",-1);
+	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
+    sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
+
+
+	for (uint16_t s  = 1; s < number; ++s)
+	{
+		if (pacf[s] < Umin)
+		{
+			Umin = pacf[s];
+		}
+	}
+	nUmin = CountD(pacf, number, Umin);
+	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
+    sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
+
+	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
+
+    double        Mu = ExpVal(pacf,number,false);
+    double     absMu = ExpVal(pacf,number,true);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание боковых выбросов : \n",-1);
+    sprintf(Exp, " %.3f",Mu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Exp,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание модуля боковых выбросов : \n",-1);
+    sprintf(AbsExp, " %.3f",absMu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
+
+    printf("\nMu = %.3f\n", Mu);
+    printf("\nabsMu = %.3f\n", absMu);
+    double  absSigma = SigmaVal(pacf,number,absMu);
+    double     Sigma = SigmaVal(pacf,number,Mu);
+    printf("\nabsSigma = %.3f\n", absSigma);
+    printf("\n Sigma = %.3f\n", Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
+    sprintf(Sigm, " %.3f",Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
+    sprintf(AbsSigm, " %.3f",absSigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
+
+    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
+	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
+    sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,MaxP,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Средний нормированный уровень боковых выбросов : \n",-1);
+    sprintf(AvrP, " %.2f%c",AveragePeakLevel(absMu,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AvrP,-1);
 
     /*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
     int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
@@ -1002,11 +1077,87 @@ void aacf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     printf("AAKF PRESSED!\n");
     gtk_widget_set_sensitive(app_wgts->w_aacf_button, FALSE);
     int16_t* aacf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений ААКФ*/
+    int16_t Umin = 0, Umax = 0, nUmin = 0, nUmax = 0;
+    char Exp[7] = {0};
+    char AbsExp[7] = {0};
+    char Umi[20] = {0};
+    char Uma[20] = {0};
+    char Sigm[7] = {0};
+    char AbsSigm[7] = {0};
+    char MaxP[7] = {0};
+    char AvrP[7] = {0};
+
     printf("NUMBER: %d!\n",number);
     AACF((int8_t*)AA_Sequence, number, aacf);/*Расчёт ПАКФ*/
     printf("aacf[0] = %d, aacf[1] = %d, aacf[2] = %d \n",aacf[0],aacf[1],aacf[2]);
     DisplayCorrelation(aacf, number, "ACF : ");/*Вывод ПАКФ в консоль*/
-	CalcProperties(aacf,number);
+
+    for (uint16_t k = 1; k < number; ++k)
+	{
+		if (aacf[k] > Umax)
+		{
+			Umax = aacf[k];
+		}
+	}
+	nUmax = CountD(aacf, number, Umax);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************ААКФ************ ",-1);
+	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
+    sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
+
+
+	for (uint16_t s  = 1; s < number; ++s)
+	{
+		if (aacf[s] < Umin)
+		{
+			Umin = aacf[s];
+		}
+	}
+	nUmin = CountD(aacf, number, Umin);
+	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
+    sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
+
+	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
+
+    double        Mu = ExpVal(aacf,number,false);
+    double     absMu = ExpVal(aacf,number,true);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание боковых выбросов : \n",-1);
+    sprintf(Exp, " %.3f",Mu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Exp,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание модуля боковых выбросов : \n",-1);
+    sprintf(AbsExp, " %.3f",absMu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
+
+    printf("\nMu = %.3f\n", Mu);
+    printf("\nabsMu = %.3f\n", absMu);
+    double  absSigma = SigmaVal(aacf,number,absMu);
+    double     Sigma = SigmaVal(aacf,number,Mu);
+    printf("\nabsSigma = %.3f\n", absSigma);
+    printf("\n Sigma = %.3f\n", Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
+    sprintf(Sigm, " %.3f",Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
+    sprintf(AbsSigm, " %.3f",absSigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
+
+    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
+	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
+    sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,MaxP,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Средний нормированный уровень боковых выбросов : \n",-1);
+    sprintf(AvrP, " %.2f%c",AveragePeakLevel(absMu,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AvrP,-1);
 
 	/*ПОСТРОЕНИЕ ГРАФИКА AАКФ*/
     int16_t * x = g_malloc(number* sizeof(int16_t));/*массив значений сдвигов для построения графика*/
@@ -1065,14 +1216,91 @@ void pvcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
 {
     printf("PVCF clicked!\n");
     gtk_widget_set_sensitive(app_wgts->w_pvcf_button, FALSE);
+
     int16_t* pvcf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений ПВКФ*/
+    int16_t Umin = 0, Umax = 0, nUmin = 0, nUmax = 0;
+    char Exp[7] = {0};
+    char AbsExp[7] = {0};
+    char Umi[20] = {0};
+    char Uma[20] = {0};
+    char Sigm[7] = {0};
+    char AbsSigm[7] = {0};
+    char MaxP[7] = {0};
+    char AvrP[7] = {0};
+
     printf("NUMBER: %d!\n",number);
     PVCF((int8_t*)PV_Sequence1, (int8_t*)PV_Sequence2, number, pvcf);/*Расчёт ПВКФ*/
 	DisplayCorrelation(pvcf, number, "VCF : ");/*Вывод ПВКФ в консоль*/
-	CalcProperties(pvcf,number);
+
+	for (uint16_t k = 1; k < number; ++k)
+	{
+		if (pvcf[k] > Umax)
+		{
+			Umax = pvcf[k];
+		}
+	}
+	nUmax = CountD(pvcf, number, Umax);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************ПВКФ************ ",-1);
+	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
+    sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
 
 
-	/*ПОСТРОЕНИЕ ГРАФИКА ПАКФ*/
+	for (uint16_t s  = 1; s < number; ++s)
+	{
+		if (pvcf[s] < Umin)
+		{
+			Umin = pvcf[s];
+		}
+	}
+	nUmin = CountD(pvcf, number, Umin);
+	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
+    sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
+
+	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
+
+    double        Mu = ExpVal(pvcf,number,false);
+    double     absMu = ExpVal(pvcf,number,true);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание боковых выбросов : \n",-1);
+    sprintf(Exp, " %.3f",Mu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Exp,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание модуля боковых выбросов : \n",-1);
+    sprintf(AbsExp, " %.3f",absMu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
+
+    printf("\nMu = %.3f\n", Mu);
+    printf("\nabsMu = %.3f\n", absMu);
+    double  absSigma = SigmaVal(pvcf,number,absMu);
+    double     Sigma = SigmaVal(pvcf,number,Mu);
+    printf("\nabsSigma = %.3f\n", absSigma);
+    printf("\n Sigma = %.3f\n", Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
+    sprintf(Sigm, " %.3f",Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
+    sprintf(AbsSigm, " %.3f",absSigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
+
+    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
+	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
+    sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,MaxP,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Средний нормированный уровень боковых выбросов : \n",-1);
+    sprintf(AvrP, " %.2f%c",AveragePeakLevel(absMu,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AvrP,-1);
+
+
+	/*ПОСТРОЕНИЕ ГРАФИКА ПВКФ*/
     int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
 
     for (uint16_t k = 0; k < number; k++)
@@ -1130,11 +1358,88 @@ void avcf_button_clicked(GtkWidget *widget, main_widgets* app_wgts)
     printf("AVCF clicked!\n");
     gtk_widget_set_sensitive(app_wgts->w_avcf_button, FALSE);
     int16_t* avcf = (int16_t*)calloc(number, sizeof(int16_t));/*массив значений АВКФ*/
+    int16_t Umin = 0, Umax = 0, nUmin = 0, nUmax = 0;
+    char Exp[7] = {0};
+    char AbsExp[7] = {0};
+    char Umi[20] = {0};
+    char Uma[20] = {0};
+    char Sigm[7] = {0};
+    char AbsSigm[7] = {0};
+    char MaxP[7] = {0};
+    char AvrP[7] = {0};
+
     printf("NUMBER: %d!\n",number);
     AVCF((int8_t*)AV_Sequence1, (int8_t*)AV_Sequence2, number, avcf);/*Расчёт АВКФ*/
 	DisplayCorrelation(avcf, number, "VCF : ");/*Вывод АВКФ в консоль*/
-	CalcProperties(avcf,number);
 
+    for (uint16_t k = 1; k < number; ++k)
+	{
+		if (avcf[k] > Umax)
+		{
+			Umax = avcf[k];
+		}
+	}
+	nUmax = CountD(avcf, number, Umax);
+
+	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n ************АВКФ************ ",-1);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный боковой выброс : \n",-1);
+    sprintf(Uma, " %d - %d раз(а)",Umax,nUmax);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Uma,-1);
+
+
+	for (uint16_t s  = 1; s < number; ++s)
+	{
+		if (avcf[s] < Umin)
+		{
+			Umin = avcf[s];
+		}
+	}
+	nUmin = CountD(avcf, number, Umin);
+	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
+	gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Минимальный боковой выброс : \n",-1);
+    sprintf(Umi, " %d - %d раз(а)",Umin,nUmin);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Umi,-1);
+
+	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
+
+    double        Mu = ExpVal(avcf,number,false);
+    double     absMu = ExpVal(avcf,number,true);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание боковых выбросов : \n",-1);
+    sprintf(Exp, " %.3f",Mu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Exp,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Математическое ожидание модуля боковых выбросов : \n",-1);
+    sprintf(AbsExp, " %.3f",absMu);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsExp,-1);
+
+    printf("\nMu = %.3f\n", Mu);
+    printf("\nabsMu = %.3f\n", absMu);
+    double  absSigma = SigmaVal(avcf,number,absMu);
+    double     Sigma = SigmaVal(avcf,number,Mu);
+    printf("\nabsSigma = %.3f\n", absSigma);
+    printf("\n Sigma = %.3f\n", Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО боковых выбросов : \n",-1);
+    sprintf(Sigm, " %.3f",Sigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,Sigm,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> СКО модуля боковых выбросов : \n",-1);
+    sprintf(AbsSigm, " %.3f",absSigma);
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AbsSigm,-1);
+
+    printf("\nMaxPeakPercentage: %d\n",MaxPeakLevel(Umin,Umax,number));
+	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,number));
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Максимальный нормированный уровень боковых выбросов : \n",-1);
+    sprintf(MaxP, " %d%c",MaxPeakLevel(Umin,Umax,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,MaxP,-1);
+
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,"\n> Средний нормированный уровень боковых выбросов : \n",-1);
+    sprintf(AvrP, " %.2f%c",AveragePeakLevel(absMu,number),'%');
+    gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,AvrP,-1);
+
+    /*ПОСТРОЕНИЕ ГРАФИКА АВКФ*/
 	int16_t * x = g_malloc(number * sizeof(int16_t));/*массив значений сдвигов для построения графика*/
 
     for (uint16_t k = 0; k < number; k++)
