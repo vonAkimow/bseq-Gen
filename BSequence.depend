@@ -1433,7 +1433,7 @@
 	<pango/pango-features.h>
 	<glib.h>
 
-1565432140 /usr/include/pango-1.0/pango/pango-features.h
+1588190813 /usr/include/pango-1.0/pango/pango-features.h
 
 1477112437 /usr/include/pango-1.0/pango/pango-types.h
 	<glib.h>
@@ -1502,7 +1502,7 @@
 	<pango/pango-types.h>
 	<pango/pango-item.h>
 
-1565432140 /usr/include/pango-1.0/pango/pango-enum-types.h
+1588190813 /usr/include/pango-1.0/pango/pango-enum-types.h
 	<glib-object.h>
 	<pango/pango-version-macros.h>
 
@@ -2882,7 +2882,7 @@
 
 1556615334 /usr/include/gtk-3.0/gtk/gtk-autocleanups.h
 
-1588188270 source:/home/pi/CProjects/BSequence/src/main.c
+1588191027 source:/home/pi/CProjects/BSequence/src/main.c
 	"main.h"
 
 1588188972 /home/pi/CProjects/BSequence/src/main.h
@@ -2910,7 +2910,7 @@
 	<string.h>
 	"calculations.h"
 
-1588189074 /home/pi/CProjects/BSequence/src/calculations.h
+1589385278 /home/pi/CProjects/BSequence/src/calculations.h
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
@@ -2922,6 +2922,6 @@
 1588188860 source:/home/pi/CProjects/BSequence/src/bgeneration.c
 	"bgeneration.h"
 
-1588189000 source:/home/pi/CProjects/BSequence/src/calculations.c
+1589384142 source:/home/pi/CProjects/BSequence/src/calculations.c
 	"calculations.h"
 

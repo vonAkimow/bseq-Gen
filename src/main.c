@@ -648,9 +648,10 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,ones,-1);
         gtk_text_buffer_insert_at_cursor(app_wgts->w_output_buffer,zeros,-1);
 
+
         buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
         gtk_text_buffer_get_end_iter(buffer, &end);
-        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, TRUE, 0.0,0.0);
 
         for(uint16_t z = 0; z < number; z++)
         {
@@ -720,7 +721,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
         gtk_text_buffer_get_end_iter(buffer, &end);
-        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, TRUE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -802,7 +803,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
         gtk_text_buffer_get_end_iter(buffer, &end);
-        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, TRUE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -893,7 +894,7 @@ void generate_button1_clicked(GtkWidget *widget, main_widgets* app_wgts)
 
         buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));/*Скроллим в конец теста*/
         gtk_text_buffer_get_end_iter(buffer, &end);
-        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, FALSE, 0.0,0.0);
+        gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app_wgts->w_text_view), &end, 0.0, TRUE, 0.0,0.0);
 
         for(uint16_t z=0; z < number; z++)
         {
@@ -927,10 +928,8 @@ void clear_textbuffer_clicked(GtkWidget *widget, main_widgets* app_wgts)
     GtkTextBuffer	*buffer;
 
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app_wgts->w_text_view));
-    g_print("CLEARED!\n");
     gtk_text_buffer_get_bounds(buffer, &start, &end);
 	gtk_text_buffer_delete(buffer, &start, &end);
-    //app_wgts->w_output_buffer
 }
 
 

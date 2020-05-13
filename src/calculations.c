@@ -195,10 +195,37 @@ void IntToString(char* str,uint8_t* sequence,uint32_t length)
      sprintf(&str[i], "%d",sequence[i]);
     }
 
-    str[length] = '\0';/*Äîáàâèëè ñèìâîë êîíöà ñòðîêè â ïîñëåäíèé ýëåìåíò*/
+    str[length] = '\0';/*Добавляем в конец массива терминальный нуль*/
 
 }
 
+inline uint16_t MaxValue(int16_t value1, int16_t value2)
+{
+    if (abs(value1) > abs(value2))
+    {
+        return abs(value1);
+    }
+    else return abs(value2);
+}
+inline double AveragePeakLevel(double ExpVal, uint32_t length)
+{
+    double h = 0;
+
+    h = 100*ExpVal/length;
+
+    return h;
+
+}
+inline double MaxPeakLevel(int16_t val1,int16_t val2,uint32_t length)
+{
+    double h = 0;
+    uint16_t Max = MaxValue(val1,val2);
+
+    h = 100*Max/length;
+
+    return h;
+
+}
 /*Íàõîæäåíèå ïðîñòûõ ÷èñåë*/
 bool NumberIsPrime(uint32_t p)
 {
@@ -214,31 +241,90 @@ bool NumberIsPrime(uint32_t p)
 	}
 	return true;
 }
-void CalcProperties(int16_t* ACF, uint32_t length)
+void CalcProperties(int16_t* CF, uint32_t length)
 {
-	int16_t min = 0;
-	int16_t max = 0;
+	int16_t Umin = 0, Umax = 0, nUmin = 0, nUmax = 0;
+
+
 
 	for (uint16_t k = 1; k < length; ++k)
 	{
-		if (ACF[k] > max)
+		if (CF[k] > Umax)
 		{
-			max = ACF[k];
+			Umax = CF[k];
 		}
 	}
-	printf("\n\nSidePeakMax =  %d, %i times.\n", max, CountD(ACF, length, max));
+	nUmax = CountD(CF, length, Umax);
+	printf("\n\nSidePeakMax =  %d, %i times.\n", Umax, nUmax);
 
 
-	for (uint32_t s = 1; s < length; ++s)
+	for (uint16_t s  = 1; s < length; ++s)
 	{
-		if (ACF[s] < min)
+		if (CF[s] < Umin)
 		{
-			min = ACF[s];
+			Umin = CF[s];
 		}
 	}
-	printf("\nSidePeakMin = %d, %i times.\n", min, CountD(ACF, length, min));
+	nUmin = CountD(CF, length, Umin);
+	printf("\nSidePeakMin = %d, %i times.\n", Umin, nUmin);
+	printf("\nMax value is: %d\n",MaxValue(Umin,Umax));
+
+    double        Mu = ExpVal(CF,length,false);
+    double     absMu = ExpVal(CF,length,true);
+    printf("\nMu = %.3f\n", Mu);
+    printf("\nabsMu = %.3f\n", absMu);
+    double  absSigma = SigmaVal(CF,length,absMu);
+    double     Sigma = SigmaVal(CF,length,Mu);
+    printf("\nabsSigma = %.3f\n", absSigma);
+    printf("\n Sigma = %.3f\n", Sigma);
+
+    printf("\nMaxPeakPercentage: %.2f\n",MaxPeakLevel(Umin,Umax,length));
+	printf("\nAveragePeakPercentage: %.2f\n",AveragePeakLevel(absMu,length));
 
 }
+double ExpVal(int16_t* CF, uint32_t length,bool absUsage)
+{
+    double sum = 0, Mu =0;
+
+    if (absUsage == false)
+    {
+        for (uint16_t k = 1; k < length; k++)
+        {
+            sum += CF[k];
+        }
+    }
+    else if (absUsage == true)
+    {
+        for (uint16_t k = 1; k < length; k++)
+        {
+            sum += abs(CF[k]);
+        }
+    }
+    else return 1;/*Ошибка*/
+
+	Mu = sum / (float)(length-1);
+
+    return Mu;
+
+}
+
+double SigmaVal(int16_t* CF, uint32_t length,double ExpVal)
+{
+    double sum = 0, Sigma = 0;
+
+    for (uint16_t k = 1; k < length; k++)
+    {
+        sum += pow(CF[k] - ExpVal, 2) ;
+    }
+
+    Sigma = sqrt(sum/(float)(length-1));
+
+    return Sigma;
+
+}
+
+
+
 
 /*×èñëî âõîæäåíèé ýëåìåíòà value â ìàññèâ sequence*/
 uint32_t CountD(int16_t* sequence, uint32_t length, int16_t value)

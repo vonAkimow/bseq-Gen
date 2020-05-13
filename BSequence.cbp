@@ -37,10 +37,14 @@
 		</Linker>
 		<Unit filename="glade/Hello.glade" />
 		<Unit filename="glade/Help.glade" />
-		<Unit filename="src/BSEQ.c">
+		<Unit filename="src/bgeneration.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/BSEQ.h" />
+		<Unit filename="src/bgeneration.h" />
+		<Unit filename="src/calculations.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/calculations.h" />
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
