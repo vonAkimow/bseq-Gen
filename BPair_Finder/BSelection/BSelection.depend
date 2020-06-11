@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1591858474 source:c:\users\dmitry akimov\desktop\choose_bprair\bselection\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	<string.h>
+	<math.h>
+
